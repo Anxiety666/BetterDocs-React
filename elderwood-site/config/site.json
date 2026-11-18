@@ -1,0 +1,331 @@
+{
+ "title": "Elderwood — Bibliothèque du lore",
+ "subtitle": "Lore & règlement du serveur RP Elderwood",
+ "snapshot": "Instantané du 18–19/11/2026",
+ "categories": [
+  "Lore général",
+  "Magie & maladies",
+  "Créatures & bestiaire",
+  "Objets & Reliques",
+  "Potions",
+  "Sorts",
+  "Familles & maisons",
+  "Lieux & institutions",
+  "Droit & Constitution",
+  "Règlements",
+  "Cours & pédagogie",
+  "Métiers légaux",
+  "Illégal",
+  "Trames",
+  "Suivis MJ",
+  "Questions de lore",
+  "Staff & organisation",
+  "Modèles & templates",
+  "Jeu (commandes)"
+ ],
+ "order": {
+  "Lore général": [
+   "bible-du-lore",
+   "origines-magie"
+  ],
+  "Magie & maladies": [
+   "brulebrume",
+   "runomancie-dico-accords",
+   "dictionnaire-maladies",
+   "lycanthropie-v4",
+   "maladies-v4",
+   "runomancie-lore",
+   "maledictions",
+   "magie-proscrite",
+   "magie-proscrite-metamorphose",
+   "echoide"
+  ],
+  "Créatures & bestiaire": [
+   "bestiaire-30-10-26",
+   "encyclopedie-draconique",
+   "creatures-des-maisons"
+  ],
+  "Objets & Reliques": [
+   "balais-magiques",
+   "boutique-baguette",
+   "catalyseurs",
+   "cristaux-coeurs",
+   "materiaux-catalyseurs",
+   "objets-magiques",
+   "sheet-itemisation",
+   "reliques-maison-artefacts"
+  ],
+  "Potions": [
+   "potions-30-10-26",
+   "livre-potions-enseignees"
+  ],
+  "Sorts": [
+   "sheet-propositions-sorts-mj",
+   "sheet-propositions-sorts-pole-rp",
+   "sorts-equipe-lore"
+  ],
+  "Familles & maisons": [
+   "fiche-cordelia-ravenscroft",
+   "lore-des-familles",
+   "lore-belladorne",
+   "lore-caerwyn",
+   "lore-ddm-maisons",
+   "maison-dravenholt",
+   "lore-hearthbane",
+   "maison-ravenscroft",
+   "maison-valemont"
+  ],
+  "Lieux & institutions": [
+   "histoire-amru-lois",
+   "police-magique-amru",
+   "shedwood"
+  ],
+  "Droit & Constitution": [
+   "constitution-annexe-peines",
+   "constitution-brouillon",
+   "constitution-peines-amendes",
+   "constitution-reglement-legal",
+   "pacte-du-voile",
+   "pacte-du-voile-copie",
+   "constitution-partie-IV"
+  ],
+  "Règlements": [
+   "autorisations-permissions",
+   "reglement-staff",
+   "reglement-professeurs-30-10-26",
+   "reglement-eleves-30-10-26"
+  ],
+  "Cours & pédagogie": [
+   "boite-a-phrases-prof",
+   "cours-sortileges-alarion",
+   "fiche-professeur-nov-2026",
+   "sheet-prof-tableau"
+  ],
+  "Métiers légaux": [
+   "dossiers-metiers-legaux",
+   "metier-apothicaire"
+  ],
+  "Illégal": [
+   "metier-alchimiste",
+   "alchimiste-potions-progression",
+   "metier-braconnier",
+   "metier-contrebandier",
+   "metier-fabricant-reliques",
+   "sheet-items-jobs-illegaux",
+   "livre-potions-illegal",
+   "metier-pilleur",
+   "reliques-maudites",
+   "reglement-illegal",
+   "sacs-contrebandier"
+  ],
+  "Trames": [
+   "trame2-professeur-a-lenvers",
+   "trame-hibou-egare",
+   "trame-heritier-brumval-v3",
+   "trame-heritier-brumval-v1",
+   "trame-heritier-brumval-v2",
+   "trame-heritage-aerwyn-v1",
+   "trame-heritier-aerwyn-v2",
+   "trame-heritier-brumval-v4",
+   "trame-heritier-falcon-v7"
+  ],
+  "Suivis MJ": [
+   "smj-hulgo",
+   "suivi-medicomagie",
+   "suivi-sortileges-worex",
+   "suivi-zoomancie-illegale",
+   "suivi-mj-v1",
+   "suivi-metamorphose-nervoz",
+   "suivi-astronomie-divination",
+   "perso-mj-arthur-bellamy"
+  ],
+  "Questions de lore": [
+   "questions-de-lore",
+   "questions-de-lore-a-trancher"
+  ],
+  "Staff & organisation": [
+   "hrp-atelier-formation",
+   "dossier-hrp-evolutions-mj",
+   "hrp-reorganisation-recrutement",
+   "sheet-organisations-mj",
+   "sheet-gestion-ecole",
+   "livret-formations",
+   "sheet-suivi-joueurs-mj",
+   "sheet-organisation-pole-lore",
+   "sheet-organisation-pole-rp",
+   "sheet-pole-rp-civil-legal",
+   "sheet-organisation-familles",
+   "sheet-organisation-illegal",
+   "recrutement-mj",
+   "regles"
+  ],
+  "Modèles & templates": [
+   "modele-suivi-academique",
+   "modele-suivi-copier-coller-18-11",
+   "squelette-naissance-famille",
+   "squelette-suivi-mj",
+   "template-creation-spell",
+   "template-creation-video",
+   "template-dossier-hrp",
+   "template-dossier-rp",
+   "template-entreprise",
+   "template-suivi-trame"
+  ],
+  "Jeu (commandes)": [
+   "commandes-raccourcis-B",
+   "commandes-raccourcis-A"
+  ]
+ },
+ "groups": [
+  {
+   "id": "lore",
+   "titre": "Lore & univers",
+   "cats": [
+    "Lore général",
+    "Lieux & institutions",
+    "Questions de lore"
+   ]
+  },
+  {
+   "id": "magie",
+   "titre": "Magie, sorts & potions",
+   "cats": [
+    "Magie & maladies",
+    "Sorts",
+    "Potions"
+   ]
+  },
+  {
+   "id": "maisons",
+   "titre": "Maisons, familles & créatures",
+   "cats": [
+    "Familles & maisons",
+    "Créatures & bestiaire"
+   ]
+  },
+  {
+   "id": "objets",
+   "titre": "Objets & reliques",
+   "cats": [
+    "Objets & Reliques"
+   ]
+  },
+  {
+   "id": "regles",
+   "titre": "Règlements, droit & sanctions",
+   "cats": [
+    "Règlements",
+    "Droit & Constitution"
+   ]
+  },
+  {
+   "id": "ecole",
+   "titre": "École & pédagogie",
+   "cats": [
+    "Cours & pédagogie"
+   ]
+  },
+  {
+   "id": "metiers",
+   "titre": "Métiers",
+   "cats": [
+    "Métiers légaux",
+    "Illégal"
+   ]
+  },
+  {
+   "id": "jeu",
+   "titre": "Jeu & commandes",
+   "cats": [
+    "Jeu (commandes)"
+   ]
+  },
+  {
+   "id": "staff",
+   "titre": "Outils MJ & staff",
+   "cats": [
+    "Trames",
+    "Suivis MJ",
+    "Staff & organisation",
+    "Modèles & templates"
+   ]
+  }
+ ],
+ "access": {
+  "public": [
+   "reglement-eleves-30-10-26",
+   "commandes-raccourcis-A",
+   "commandes-raccourcis-B"
+  ],
+  "joueurs": [
+   "bible-du-lore",
+   "bestiaire-30-10-26",
+   "brulebrume",
+   "runomancie-lore",
+   "runomancie-dico-accords",
+   "encyclopedie-draconique",
+   "catalyseurs",
+   "cristaux-coeurs",
+   "echoide",
+   "maladies-v4",
+   "objets-magiques",
+   "potions-30-10-26",
+   "livre-potions-enseignees",
+   "sorts-equipe-lore",
+   "maledictions",
+   "shedwood",
+   "lore-belladorne",
+   "lore-caerwyn",
+   "maison-dravenholt",
+   "lore-hearthbane",
+   "maison-ravenscroft",
+   "maison-valemont",
+   "reglement-professeurs-30-10-26"
+  ],
+  "default": "staff"
+ },
+ "access_levels": {
+  "public": "Public",
+  "joueurs": "Joueurs",
+  "staff": "Staff"
+ },
+ "archives": [
+  "trame-heritier-brumval-v1",
+  "trame-heritier-brumval-v2",
+  "trame-heritier-brumval-v3",
+  "trame-heritage-aerwyn-v1",
+  "pacte-du-voile-copie",
+  "constitution-brouillon"
+ ],
+ "withheld": {
+  "fiche-cordelia-ravenscroft": "Fiche de candidature individuelle (données personnelles d’un joueur) : non publiée sur le site."
+ },
+ "redactions": {
+  "email": "[adresse e-mail non publiée]",
+  "column": "[non publié]",
+  "table_columns": [
+   "discord",
+   "discord du prof",
+   "contact",
+   "contact :"
+  ],
+  "url_params": [
+   "ouid",
+   "rtpof",
+   "sd",
+   "usp"
+  ],
+  "keep_values": [
+   "oui",
+   "non",
+   "aucune",
+   "club",
+   "concierge",
+   "en attente",
+   "validé",
+   "valide",
+   "pas completement",
+   "pas complètement"
+  ]
+ }
+}

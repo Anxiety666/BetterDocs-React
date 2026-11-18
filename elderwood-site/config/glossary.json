@@ -1,0 +1,565 @@
+[
+ {
+  "term": "Écho",
+  "aliases": [
+   "Echo"
+  ],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Aussi appelé magie, l'origine de toute chose",
+   "to": "Premier Murmure."
+  },
+  "pages": [
+   "bible-du-lore",
+   "echoide"
+  ]
+ },
+ {
+  "term": "Onde",
+  "aliases": [],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Vibration originelle née avec l'univers",
+   "to": "l'Écho."
+  },
+  "pages": [
+   "bible-du-lore"
+  ]
+ },
+ {
+  "term": "Résonance",
+  "aliases": [
+   "Résonances"
+  ],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Réponse propre de chaque être vivant à l'Écho."
+  },
+  "pages": [
+   "bible-du-lore"
+  ]
+ },
+ {
+  "term": "Résonant",
+  "aliases": [
+   "Résonants",
+   "Résonante",
+   "Résonantes",
+   "Resonant"
+  ],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Sorcier dont la Résonance permet de produire un Flux exploitable."
+  },
+  "pages": [
+   "bible-du-lore"
+  ]
+ },
+ {
+  "term": "Flux",
+  "aliases": [],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Énergie née de la rencontre entre l'Écho et la Résonance",
+   "to": "manipulable de la magie."
+  },
+  "pages": [
+   "bible-du-lore"
+  ]
+ },
+ {
+  "term": "Sans-Flux",
+  "aliases": [],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Humains dont la Résonance est trop faible pour produire un Flux exploitable."
+  },
+  "pages": [
+   "bible-du-lore"
+  ]
+ },
+ {
+  "term": "Dissonant",
+  "aliases": [
+   "Dissonants",
+   "Dissonante",
+   "Dissonantes"
+  ],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Personne née de parents Sans-Flux",
+   "to": "rares."
+  },
+  "pages": [
+   "bible-du-lore",
+   "lore-hearthbane"
+  ]
+ },
+ {
+  "term": "Voile",
+  "aliases": [],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Phénomène local (ou sort) dissimulant",
+   "to": "Sans-Flux."
+  },
+  "pages": [
+   "bible-du-lore",
+   "pacte-du-voile"
+  ]
+ },
+ {
+  "term": "Échoïde",
+  "aliases": [
+   "Échoïdes",
+   "Echoide",
+   "Echoïde"
+  ],
+  "cat": "Créatures",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Souvenir ou connaissance de runomancien figé dans une rune instable ou endommagée."
+  },
+  "pages": [
+   "echoide",
+   "bible-du-lore"
+  ]
+ },
+ {
+  "term": "Magie d'usage",
+  "aliases": [
+   "Magie d’usage"
+  ],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Magie du quotidien, canalisée par l'intention, le geste, l'incantation et le catalyseur."
+  },
+  "pages": [
+   "bible-du-lore"
+  ]
+ },
+ {
+  "term": "Runomancie",
+  "aliases": [
+   "Runomancien",
+   "Runomanciens",
+   "Runomancienne"
+  ],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Magie ancienne inscrivant le Flux dans la durée à travers des runes."
+  },
+  "pages": [
+   "runomancie-lore",
+   "runomancie-dico-accords"
+  ]
+ },
+ {
+  "term": "Catalyseur",
+  "aliases": [
+   "Catalyseurs"
+  ],
+  "cat": "Objets",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Objet (baguette, sceptre, grimoire) canalisant et stabilisant le Flux du sorcier."
+  },
+  "pages": [
+   "catalyseurs",
+   "materiaux-catalyseurs"
+  ]
+ },
+ {
+  "term": "Intention",
+  "aliases": [],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Ce que le sorcier veut faire en lançant son sort."
+  },
+  "pages": [
+   "bible-du-lore"
+  ],
+  "auto": false
+ },
+ {
+  "term": "La Source de Vehr",
+  "aliases": [
+   "Source de Vehr"
+  ],
+  "cat": "Lieux",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Source d'eau révélant la couleur du Flux de chaque individu."
+  },
+  "pages": [
+   "bible-du-lore"
+  ]
+ },
+ {
+  "term": "Choixologue",
+  "aliases": [
+   "Choixologie"
+  ],
+  "cat": "École",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "fonction et rituel liés à la répartition des maisons."
+  },
+  "pages": [
+   "bible-du-lore"
+  ]
+ },
+ {
+  "term": "Accord runique",
+  "aliases": [
+   "Accords runiques",
+   "accords consacrés",
+   "Accord consacré",
+   "Accords consacrés"
+  ],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Ensemble de plusieurs runes agissant comme un tout",
+   "to": "composent une partition."
+  },
+  "pages": [
+   "runomancie-dico-accords",
+   "runomancie-lore"
+  ]
+ },
+ {
+  "term": "Partition",
+  "aliases": [
+   "Partitions"
+  ],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Structure runique complète capable d'orienter durablement le Flux dans un lieu ou un objet."
+  },
+  "pages": [
+   "runomancie-lore"
+  ],
+  "auto": false
+ },
+ {
+  "term": "Résonance de Souffle",
+  "aliases": [],
+  "cat": "Magie",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Sensibilité du Flux propre à la lignée Glenhart",
+   "to": "certaines traces."
+  },
+  "pages": [
+   "bible-du-lore"
+  ]
+ },
+ {
+  "term": "Razorball",
+  "aliases": [
+   "Razeball",
+   "Razorball"
+  ],
+  "cat": "École",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Sport international sorcier",
+   "to": "« le Raze »"
+  },
+  "pages": [
+   "bible-du-lore"
+  ]
+ },
+ {
+  "term": "Distorsion",
+  "aliases": [
+   "Distorsions"
+  ],
+  "cat": "Magie",
+  "cite": {
+   "k": "magie-proscrite",
+   "from": "La Magie Proscrite détourne ce fonctionnement par un procédé appelé Distorsion."
+  },
+  "pages": [
+   "magie-proscrite"
+  ]
+ },
+ {
+  "term": "Cristal-Cœur",
+  "aliases": [
+   "Cristaux-Cœurs",
+   "Cristaux-Coeurs",
+   "Cristal-Coeur"
+  ],
+  "cat": "Objets",
+  "cite": {
+   "k": "cristaux-coeurs",
+   "from": "Un Cristal-Cœur conserve la Résonance de la créature dont provient l'ingrédient."
+  },
+  "pages": [
+   "cristaux-coeurs"
+  ]
+ },
+ {
+  "term": "AMRU",
+  "aliases": [],
+  "cat": "Institutions",
+  "cite": {
+   "k": "histoire-amru-lois",
+   "from": "L’Autorité Magique du Royaume-Uni, plus communément appelée l’AMRU",
+   "to": "Grande-Bretagne."
+  },
+  "pages": [
+   "histoire-amru-lois",
+   "police-magique-amru"
+  ]
+ },
+ {
+  "term": "Pacte du Voile",
+  "aliases": [],
+  "cat": "Institutions",
+  "cite": {
+   "k": "pacte-du-voile",
+   "from": "Fondements de l’ordre sorcier britannique et Lois du Voile"
+  },
+  "pages": [
+   "pacte-du-voile",
+   "constitution-reglement-legal"
+  ]
+ },
+ {
+  "term": "Shedwood",
+  "aliases": [],
+  "cat": "Lieux",
+  "cite": {
+   "k": "shedwood",
+   "from": "L'objectif principal de Shedwood est d'être créateur de RP."
+  },
+  "pages": [
+   "shedwood"
+  ]
+ },
+ {
+  "term": "Brûlebrume",
+  "aliases": [
+   "Brulebrume"
+  ],
+  "cat": "Lieux",
+  "cite": {
+   "k": "brulebrume",
+   "from": "Bien avant de devenir l’un des lieux les plus dangereux et les plus surveillés d’Elderwood",
+   "to": "l’île."
+  },
+  "pages": [
+   "brulebrume"
+  ]
+ },
+ {
+  "term": "Falcon",
+  "aliases": [
+   "Maison Falcon"
+  ],
+  "cat": "Maisons",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Fondateur : Eldric Falcon.",
+   "to": "Symbole : le Faucon pèlerin."
+  },
+  "pages": [
+   "bible-du-lore",
+   "creatures-des-maisons"
+  ]
+ },
+ {
+  "term": "Aerwyn",
+  "aliases": [
+   "Maison Aerwyn"
+  ],
+  "cat": "Maisons",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Fondatrice : Althea Aerwyn.",
+   "to": "l'épée et du bouclier."
+  },
+  "pages": [
+   "bible-du-lore",
+   "creatures-des-maisons"
+  ]
+ },
+ {
+  "term": "Venatrix",
+  "aliases": [
+   "Maison Venatrix"
+  ],
+  "cat": "Maisons",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Fondatrice : Selena Venatrix.",
+   "to": "Symbole : la Pieuvre Géante."
+  },
+  "pages": [
+   "bible-du-lore",
+   "creatures-des-maisons"
+  ]
+ },
+ {
+  "term": "Brumval",
+  "aliases": [
+   "Maison Brumval"
+  ],
+  "cat": "Maisons",
+  "cite": {
+   "k": "bible-du-lore",
+   "from": "Fondateur : Hector Brumval.",
+   "to": "Symbole : le Grand Ours."
+  },
+  "pages": [
+   "bible-du-lore",
+   "creatures-des-maisons"
+  ]
+ },
+ {
+  "term": "Valemont",
+  "aliases": [],
+  "cat": "Familles",
+  "cite": {
+   "k": "maison-valemont",
+   "from": "Valeurs connues : Savoir, Curiosité, Sagesse"
+  },
+  "pages": [
+   "maison-valemont",
+   "lore-des-familles"
+  ]
+ },
+ {
+  "term": "Dravenholt",
+  "aliases": [],
+  "cat": "Familles",
+  "cite": {
+   "k": "maison-dravenholt",
+   "from": "Valeurs connues : Influence, Élégance, Ambition, Noblesse"
+  },
+  "pages": [
+   "maison-dravenholt",
+   "lore-des-familles"
+  ]
+ },
+ {
+  "term": "Ravenscroft",
+  "aliases": [],
+  "cat": "Familles",
+  "cite": {
+   "k": "maison-ravenscroft",
+   "from": "Valeurs connues : Expertise runique, Rigueur méthodologique, Préparation, Responsabilité du spécialiste."
+  },
+  "pages": [
+   "maison-ravenscroft",
+   "lore-des-familles"
+  ]
+ },
+ {
+  "term": "Belladorn",
+  "aliases": [
+   "Belladorne"
+  ],
+  "cat": "Familles",
+  "cite": {
+   "k": "lore-belladorne",
+   "from": "Valeurs connues : Empirisme, Indépendance, Expertise alchimique, Discrétion opérationnelle."
+  },
+  "pages": [
+   "lore-belladorne",
+   "lore-des-familles"
+  ]
+ },
+ {
+  "term": "Caerwyn",
+  "aliases": [],
+  "cat": "Familles",
+  "cite": {
+   "k": "lore-caerwyn",
+   "from": "Valeurs connues : Honneur, Protection, Droiture, Constance"
+  },
+  "pages": [
+   "lore-caerwyn",
+   "lore-des-familles"
+  ]
+ },
+ {
+  "term": "Hearthbane",
+  "aliases": [
+   "Heartbane",
+   "Hearthbane"
+  ],
+  "cat": "Familles",
+  "cite": {
+   "k": "lore-hearthbane",
+   "from": "Valeurs connues : Loyauté, Camaraderie, Générosité, Courage"
+  },
+  "pages": [
+   "lore-hearthbane",
+   "lore-des-familles"
+  ]
+ },
+ {
+  "term": "Validation de la Direction",
+  "aliases": [],
+  "cat": "Règles",
+  "cite": {
+   "k": "reglement-professeurs-30-10-26",
+   "from": "À partir de 25 points nécessitent obligatoirement une validation de la Direction."
+  },
+  "pages": [
+   "reglement-professeurs-30-10-26"
+  ],
+  "auto": false
+ },
+ {
+  "term": "Punitions",
+  "aliases": [
+   "Punition"
+  ],
+  "cat": "Règles",
+  "cite": {
+   "k": "reglement-professeurs-30-10-26",
+   "from": "Les punitions n°6 à 8 ne peuvent être prononcées par la Direction qu’après concertation",
+   "to": "est indisponible."
+  },
+  "pages": [
+   "reglement-professeurs-30-10-26",
+   "reglement-eleves-30-10-26"
+  ],
+  "auto": false
+ },
+ {
+  "term": "Paliers de progression (T1 à T5)",
+  "aliases": [
+   "Palier",
+   "Paliers"
+  ],
+  "cat": "Règles",
+  "cite": {
+   "k": "suivi-mj-v1",
+   "from": "Initiation (Palier 1 - 100 XP)",
+   "to": "Création de sort/objet etc."
+  },
+  "pages": [
+   "suivi-mj-v1",
+   "modele-suivi-academique"
+  ],
+  "auto": false
+ }
+]
