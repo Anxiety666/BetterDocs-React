@@ -40,12 +40,24 @@ Un site statique ne peut pas être protégé par un mot de passe écrit en JavaS
 | `SITE_STAFF_PASSWORD` (obligatoire) | accès à tout le site (212 pages) ; identifiant `staff` (modifiable avec `SITE_STAFF_USER`) |
 | `SITE_PLAYER_PASSWORD` (facultatif) | accès à `dist/joueurs/` : site **sans** les pages staff ; identifiant `joueurs` (`SITE_PLAYER_USER`) |
 
-Sans `SITE_STAFF_PASSWORD`, le serveur refuse de démarrer. Après toute modification du contenu : `python3 build.py --all --check` puis commiter `data/` **et** `dist/joueurs/` (les deux doivent rester synchronisés).
+**Mots de passe robustes imposés** : le serveur refuse de démarrer si un mot de passe fait moins de 16 caractères, mélange moins de 3 types de caractères (sauf s'il fait 24 caractères ou plus), contient l'identifiant, « elderwood » ou un motif courant (`123456`, `azerty`, `password`…), ou si les deux niveaux partagent identifiant ou mot de passe. Pour en générer un : `python3 server.py --generate` (ou le bouton *Generate* de Render dans *Environment*). Ne le stockez que dans Render et votre gestionnaire de mots de passe, jamais dans le dépôt.
 
-Sur Render : *New → Blueprint* sur ce dépôt (le fichier `render.yaml` crée un **Web Service** Python), puis renseigner les deux mots de passe dans l'onglet *Environment*. Le service gratuit se met en veille après inactivité (premier chargement lent). Essai local :
+Protections en place :
+- aucune ressource (pages, données, index de recherche) avant authentification ; comparaison des identifiants à temps constant ;
+- **blocage après 5 essais ratés** depuis la même adresse (15 minutes, réponse 429) et délai de 1 s par échec ;
+- **HTTPS imposé** sur Render (redirection 308, les identifiants ne circulent jamais en clair) ;
+- en-têtes : CSP stricte (aucun script en ligne, scripts uniquement du site), HSTS, anti-framing, `nosniff`, `no-referrer`, `noindex`, pas d'indexation ni d'archivage ;
+- GET / HEAD uniquement, délais de socket (anti-connexions lentes), liste blanche de fichiers, protection contre `..`, pas d'identifiants dans les journaux ;
+- `/deconnexion` oublie les identifiants mémorisés par le navigateur.
+
+Limites à connaître : l'authentification est un mot de passe partagé par niveau (pas de comptes individuels) ; toute personne qui le connaît voit tout son niveau. Pour révoquer un accès, changez la variable dans Render (le service redémarre). Les images du wiki sont chargées depuis wiki.elderwood-rp.com (autorisé dans la CSP).
+
+Après toute modification du contenu : `python3 build.py --all --check` puis commiter `data/` **et** `dist/joueurs/` (les deux doivent rester synchronisés).
+
+Sur Render : *New → Web Service* (Language **Python 3**, Root Directory `elderwood-site`, Build Command `echo ok`, Start Command `python3 server.py`), puis les variables dans l'onglet *Environment*. Le service gratuit se met en veille après inactivité (premier chargement lent). Essai local :
 
 ```bash
-SITE_STAFF_PASSWORD=monmotdepasse python3 server.py   # puis http://127.0.0.1:8000/ (identifiant : staff)
+SITE_STAFF_PASSWORD="$(python3 server.py --generate)" python3 server.py   # affichez-le avant : python3 server.py --generate
 ```
 
 ## Essayer en local
