@@ -1,0 +1,23 @@
+# Brisecerat
+
+- Catégorie : Wiki officiel WikiWood (public)
+
+---
+
+# Brisecerat
+URL: https://wiki.elderwood-rp.com/bestiaire/rang-a/brisecerat
+
+
+### **Rang E**
+
+- **Lieu :** Zones côtières, mer, plages rocheuses, lacs bordés de sable ou de galets
+- **Comportement :** Discret, farouche, défensif uniquement si acculé ou si son nid est dérangé
+- **Description physique :** Corps compact et bas sur pattes, recouvert d'une cératine naturelle formant plusieurs plaques souples mais résistantes sur le dos
+- **Régime alimentaire :** Omnivore côtier, petites algues, coquillages ramollis, mousses salées, matières organiques déposées par la mer
+- **Méthode de reproduction :** Inconnue / non documentée
+- **Mode de vie :** Sédentaire, se réfugie dans les anfractuosités de roche et les zones de ressac
+- **Loot déposé :** Cératine de Brisecerat
+- **Interaction avec l'homme & Danger :** Évitante
+- **Caractéristique magique :** Sa cératine, une fois prélevée et traitée, sert à fabriquer des équipements de protection de deuxième facture, moins résistants que la peau de dragon, mais supérieurs au cuir renforcé classique, à prix abordable
+
+Le Brisecerat compense sa lenteur par une discrétion redoutable, se fondant dans les rochers humides et le sable mouillé au point de passer inaperçu jusqu'au dernier moment. Sa cératine, matière intermédiaire entre le cuir et l'écaille de dragon, en fait une ressource de choix pour équiper à moindre coût ceux qui n'ont pas les moyens d'une armure plus prestigieuse.

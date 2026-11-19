@@ -1,7 +1,7 @@
 {
  "title": "Elderwood — Bibliothèque du lore",
  "subtitle": "Lore & règlement du serveur RP Elderwood",
- "snapshot": "Instantané du 18–19/11/2026",
+ "snapshot": "Instantané du 19/11/2026",
  "categories": [
   "Lore général",
   "Magie & maladies",
@@ -21,7 +21,8 @@
   "Questions de lore",
   "Staff & organisation",
   "Modèles & templates",
-  "Jeu (commandes)"
+  "Jeu (commandes)",
+  "Wiki officiel WikiWood (public)"
  ],
  "order": {
   "Lore général": [
@@ -174,9 +175,17 @@
   "Jeu (commandes)": [
    "commandes-raccourcis-B",
    "commandes-raccourcis-A"
-  ]
+  ],
+  "Wiki officiel WikiWood (public)": []
  },
  "groups": [
+  {
+   "id": "wiki",
+   "titre": "Wiki officiel WikiWood (public)",
+   "cats": [
+    "Wiki officiel WikiWood (public)"
+   ]
+  },
   {
    "id": "lore",
    "titre": "Lore & univers",
@@ -282,7 +291,10 @@
    "maison-valemont",
    "reglement-professeurs-30-10-26"
   ],
-  "default": "staff"
+  "default": "staff",
+  "prefix_public": [
+   "wiki-"
+  ]
  },
  "access_levels": {
   "public": "Public",
@@ -307,7 +319,10 @@
    "discord",
    "discord du prof",
    "contact",
-   "contact :"
+   "contact :",
+   "pseudo hrp",
+   "pseudo joueur",
+   "pseudo joueurs"
   ],
   "url_params": [
    "ouid",
@@ -325,7 +340,24 @@
    "validé",
    "valide",
    "pas completement",
-   "pas complètement"
+   "pas complètement",
+   "aerwyn",
+   "brumval",
+   "falcon",
+   "venatrix",
+   "magister",
+   "infirmier",
+   "bibliothecaire",
+   "bibliothécaire",
+   "surveillant",
+   "directeur",
+   "directrice",
+   "professeur"
   ]
+ },
+ "wiki": {
+  "category": "Wiki officiel WikiWood (public)",
+  "base": "https://wiki.elderwood-rp.com",
+  "top_order": []
  }
 }

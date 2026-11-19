@@ -418,3 +418,57 @@ table.sortable thead th[aria-sort="descending"]::after { content: " ▼"; opacit
   mark { background: none; }
   .doc .callout { border-color: #777; background: #fff; }
 }
+
+/* ---- wiki : encadrés, renvois, images ---- */
+.hint { border: 1px solid var(--border); border-left: 4px solid var(--forest); border-radius: 8px; padding: 10px 16px; margin: 1em 0; background: var(--surface); }
+.hint p:last-child, .hint ul:last-child { margin-bottom: 0; }
+.hint-info { border-left-color: var(--gold); }
+.hint-warning { border-left-color: var(--amber); background: var(--amber-bg); }
+.hint-danger { border-left-color: var(--burgundy); background: var(--burgundy-bg); }
+.doc p.ref { margin: .3em 0; }
+.doc p.ref a { display: inline-block; padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--surface); text-decoration: none; }
+.doc p.ref a::before { content: "→ "; color: var(--gold); }
+.doc p.ref a:hover { border-color: var(--gold); }
+.doc img.wimg { max-width: 100%; height: auto; border-radius: 8px; margin: .6em 0; display: block; }
+.doc mark { padding: 0 3px; }
+.doc mark.mk-yellow { background: rgba(224, 190, 60, .35); } .doc mark.mk-purple { background: rgba(150, 90, 200, .3); }
+.doc mark.mk-orange { background: rgba(230, 140, 50, .32); } .doc mark.mk-green { background: rgba(90, 170, 110, .32); }
+.doc code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; font-size: .92em; }
+.doc pre { background: var(--code-bg); padding: 12px 14px; border-radius: 8px; overflow-x: auto; }
+.doc blockquote { margin: 1em 0; padding: 4px 16px; border-left: 3px solid var(--border-strong); color: var(--text-soft); }
+.badge.wiki { color: var(--forest); border-color: color-mix(in srgb, var(--forest) 55%, transparent); background: var(--forest-bg); }
+
+/* ---- feuilles : onglets ---- */
+.sheet-tabbar { display: flex; flex-wrap: wrap; gap: 4px; margin: 1em 0 .4em; border-bottom: 1px solid var(--border-strong); }
+.sheet-tabbar button { font: inherit; font-size: .88rem; padding: 7px 14px; cursor: pointer; background: var(--surface); color: var(--text-soft); border: 1px solid var(--border); border-bottom: 0; border-radius: 8px 8px 0 0; }
+.sheet-tabbar button[aria-selected="true"] { background: var(--gold-soft); color: var(--text); border-color: var(--gold); font-weight: 600; }
+.sheet-tab > h2 { margin-top: .6em; }
+
+/* ---- arbre du wiki ---- */
+.sn-wiki { margin: 2px 0 8px 8px; }
+.sn-tree { list-style: none; margin: 0; padding: 0 0 0 10px; border-left: 1px solid var(--border); }
+.sn-wiki > .sn-tree { border-left: 0; padding-left: 4px; }
+.sn-tree li { margin: 0; }
+.sn-tree a { display: block; padding: 3px 8px; border-radius: 6px; color: var(--text-soft); text-decoration: none; font-size: .86rem; line-height: 1.35; }
+.sn-tree a:hover { background: var(--surface-3); color: var(--text); }
+.sn-tree a.current { background: var(--gold-soft); color: var(--text); box-shadow: inset 2px 0 0 var(--gold); }
+.sn-tree summary { cursor: pointer; list-style: none; display: flex; align-items: center; }
+.sn-tree summary::-webkit-details-marker { display: none; }
+.sn-tree summary::before { content: "›"; color: var(--muted); width: 12px; flex: none; transition: transform .15s; display: inline-block; }
+.sn-tree details[open] > summary::before { transform: rotate(90deg); }
+.sn-tree summary a { flex: 1; }
+.wtree { list-style: none; margin: 4px 0 4px 0; padding-left: 20px; border-left: 1px solid var(--border); }
+.main > #view > .wtree { padding-left: 0; border-left: 0; }
+.wtree li { margin: 4px 0; }
+.wtree a { text-decoration: none; }
+.wtree strong { font-weight: 600; }
+
+/* ---- contradictions ---- */
+.contra { margin: 0 0 28px; padding: 16px 20px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.contra h2 { margin: 0 0 8px; font-size: 1.4rem; color: var(--gold); }
+.contra blockquote { margin: 10px 0 2px; padding: 4px 0 4px 14px; border-left: 3px solid var(--gold); color: var(--text-soft); }
+.contra .src { margin: 0 0 10px; font-size: .85rem; color: var(--muted); }
+.contra .check { font-size: .9rem; padding: 8px 12px; border-radius: 8px; background: var(--surface-2); }
+@media print { .sheet-tabbar { display: none; } .sheet-tab[hidden] { display: block !important; } }
+
+.doc img.wimg-broken { display: none; }

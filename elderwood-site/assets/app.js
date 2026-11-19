@@ -5,6 +5,7 @@
   var EW = window.EW || {};
   var M = EW.manifest;
   var GL = EW.glossary || [];
+  var CONTRA = EW.contradictions || [];
   var view = document.getElementById('view');
   if (!M) { view.innerHTML = '<p class="notice">Données introuvables (data/manifest.js). Lancez <code>python3 build.py</code>.</p>'; return; }
 
@@ -37,12 +38,13 @@
   function visibleCats() { return M.categories.filter(function (c) { return catPages(c).length; }); }
 
   function sClass(s) {
+    if (!s) return 's-none';
     return { 'Validé': 's-valide', 'En cours de rédaction': 's-encours', 'À modifier': 's-amodifier', 'Possibilité de modifier': 's-possible' }[s] || 's-none';
   }
   function statusBadge(p) { return '<span class="badge ' + sClass(p.s) + '" title="Statut de rédaction">' + esc(p.s || 'Statut non documenté') + '</span>'; }
   function accessBadge(p) { return '<span class="badge a-' + p.a + '" title="Niveau d\'accès sur ce site">' + esc(LNAME[p.a] || p.a) + '</span>'; }
   function badges(p, extra) {
-    return '<div class="badges">' + accessBadge(p) + statusBadge(p) + (p.arch ? '<span class="badge arch">Archive (ancienne version)</span>' : '') + (extra || '') + '</div>';
+    return '<div class="badges">' + accessBadge(p) + (p.wiki ? '<span class="badge wiki">Wiki officiel</span>' : statusBadge(p)) + (p.arch ? '<span class="badge arch">Archive (ancienne version)</span>' : '') + (extra || '') + '</div>';
   }
   function nd(v) { return v ? esc(v) : '<span class="nd">non documenté</span>'; }
   function pageHref(k, anchor, q) { return '#/p/' + encodeURIComponent(k) + (anchor ? '/' + encodeURIComponent(anchor) : '') + (q ? '?q=' + encodeURIComponent(q) : ''); }
@@ -203,19 +205,43 @@
     M.groups.forEach(function (g) {
       var cats = g.cats.map(function (n) { return catByName[n]; }).filter(function (c) { return c && catPages(c).length; });
       if (!cats.length) return;
-      h += '<div class="sn-group">' + esc(g.titre) + '</div>';
+      if (!(cats.length === 1 && cats[0].name === g.titre)) h += '<div class="sn-group">' + esc(g.titre) + '</div>';
       cats.forEach(function (c) { used[c.name] = 1; h += sideCat(c, cur); });
     });
     var rest = visibleCats().filter(function (c) { return !used[c.name]; });
     if (rest.length) { h += '<div class="sn-group">Autres</div>'; rest.forEach(function (c) { h += sideCat(c, cur); }); }
     h += '<div class="sn-group">Outils</div><a class="sn-home' + (cur.type === 'gloss' ? ' current' : '') + '" href="#/glossaire">Glossaire</a>' +
       '<a class="sn-home' + (cur.type === 'search' ? ' current' : '') + '" href="#/recherche">Recherche avancée</a>' +
+      '<a class="sn-home' + (cur.type === 'contra' ? ' current' : '') + '" href="#/contradictions">Contradictions connues</a>' +
+      '<a class="sn-home' + (cur.type === 'missing' ? ' current' : '') + '" href="#/non-disponible">Contenu non disponible</a>' +
       '<a class="sn-home' + (cur.type === 'about' ? ' current' : '') + '" href="#/a-propos">À propos & sources</a>';
     $('#sideNav').innerHTML = h;
     var curEl = $('#sideNav a.current'); if (curEl && curEl.closest('.sn-list')) { try { curEl.scrollIntoView({ block: 'nearest' }); } catch (e) { } }
   }
+  function wikiTree(ps) {
+    var by = {}, roots = [];
+    ps.forEach(function (p) { by[p.u] = { p: p, kids: [] }; });
+    ps.forEach(function (p) {
+      var segs = p.u.split('/'), par = null;
+      for (var i = segs.length - 1; i >= 1 && !par; i--) par = by[segs.slice(0, i).join('/')] || null;
+      (par ? par.kids : roots).push(by[p.u]);
+    });
+    return roots;
+  }
+  function hasKey(n, k) { return n.p.k === k || n.kids.some(function (x) { return hasKey(x, k); }); }
+  function treeHtml(nodes, curKey) {
+    return '<ul class="sn-tree">' + nodes.map(function (n) {
+      var a = '<a href="' + pageHref(n.p.k) + '"' + (curKey === n.p.k ? ' class="current" aria-current="page"' : '') + '>' + esc(n.p.t) + '</a>';
+      if (!n.kids.length) return '<li>' + a + '</li>';
+      return '<li><details' + (hasKey(n, curKey) ? ' open' : '') + '><summary>' + a + '</summary>' + treeHtml(n.kids, curKey) + '</details></li>';
+    }).join('') + '</ul>';
+  }
   function sideCat(c, cur) {
     var ps = catPages(c), open = (cur.type === 'cat' && cur.slug === c.slug) || (cur.type === 'page' && pageByKey[cur.key] && pageByKey[cur.key].c === c.name);
+    if (ps.length && ps[0].wiki) {
+      return '<details class="sn-cat"' + (open ? ' open' : '') + '><summary><a href="#/c/' + c.slug + '" style="color:inherit;text-decoration:none">' + esc(c.name) + '</a><span class="sn-count">' + ps.length + '</span></summary>' +
+        '<div class="sn-wiki">' + treeHtml(wikiTree(ps), cur.type === 'page' ? cur.key : '') + '</div></details>';
+    }
     var main = ps.filter(function (p) { return !p.arch; }), arch = ps.filter(function (p) { return p.arch; });
     function li(p) {
       return '<li><a href="' + pageHref(p.k) + '"' + (cur.type === 'page' && cur.key === p.k ? ' class="current" aria-current="page"' : '') + '>' +
@@ -228,7 +254,7 @@
 
   /* ------------------------------------------------------------------ vues */
   var QUICK = [
-    ['reglement-eleves-30-10-26', 'Règlement des élèves'], ['reglement-professeurs-30-10-26', 'Points de Maison & sanctions'],
+    ['wiki-accueil', 'Wiki officiel'], ['wiki-reglement', 'Règlement (wiki)'], ['reglement-eleves-30-10-26', 'Règlement des élèves'], ['reglement-professeurs-30-10-26', 'Points de Maison & sanctions'],
     ['commandes-raccourcis-A', 'Commandes du jeu'], ['bible-du-lore', 'Bible du lore'], ['bestiaire-30-10-26', 'Bestiaire'],
     ['constitution-peines-amendes', 'Peines et amendes'], ['suivi-mj-v1', 'Paliers T1–T5 & XP'], ['reglement-illegal', 'Règlement illégal']
   ];
@@ -269,6 +295,15 @@
     var c = catBySlug[slug];
     if (!c || !catPages(c).length) return notFound();
     var ps = catPages(c), main = ps.filter(function (p) { return !p.arch; }), arch = ps.filter(function (p) { return p.arch; });
+    if (ps[0] && ps[0].wiki) {
+      var tree = function (nodes) {
+        return '<ul class="wtree">' + nodes.map(function (n) {
+          return '<li><a href="' + pageHref(n.p.k) + '"><strong>' + esc(n.p.t) + '</strong></a>' + (n.kids.length ? tree(n.kids) : '') + '</li>';
+        }).join('') + '</ul>';
+      };
+      return { html: '<nav class="crumbs" aria-label="Fil d\'Ariane"><a href="#/">Accueil</a><span class="sep">›</span><span aria-current="page">' + esc(c.name) + '</span></nav>' +
+        '<h1 class="page-title">' + esc(c.name) + '</h1><p class="result-meta">' + plural(ps.length, 'page', 'pages') + ' · reprise intégrale du wiki public, dans l\'arborescence d\'origine.</p>' + tree(wikiTree(ps)), title: c.name + ' — Elderwood' };
+    }
     var h = '<nav class="crumbs" aria-label="Fil d\'Ariane"><a href="#/">Accueil</a><span class="sep">›</span><span aria-current="page">' + esc(c.name) + '</span></nav>' +
       '<h1 class="page-title">' + esc(c.name) + '</h1><p class="result-meta">' + plural(ps.length, 'document', 'documents') + ' · <a href="#/recherche?c=' + encodeURIComponent(c.name) + '">Rechercher dans cette section</a></p>' +
       '<ul class="list">' + main.map(function (p) { return itemHtml(p); }).join('') + '</ul>';
@@ -281,6 +316,13 @@
 
   function metaCard(p) {
     var kws = (p.kw || '').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
+    if (p.wiki) {
+      return '<details class="meta-card"><summary>Fiche de la page</summary><dl>' +
+        '<dt>Section</dt><dd><a href="#/c/' + catByName[p.c].slug + '">' + esc(p.c) + '</a></dd>' +
+        '<dt>Accès sur ce site</dt><dd>' + accessBadge(p) + '</dd>' +
+        '<dt>Page d\'origine</dt><dd><a href="https://wiki.elderwood-rp.com/' + esc(p.u) + '" target="_blank" rel="noopener noreferrer">wiki.elderwood-rp.com/' + esc(p.u) + '</a> <span class="nd">(le contenu est entièrement repris ici)</span></dd>' +
+        '<dt>Longueur</dt><dd>' + p.w.toLocaleString('fr-FR') + ' mots · ≈ ' + Math.max(1, Math.round(p.w / 220)) + ' min de lecture</dd></dl></details>';
+    }
     return '<details class="meta-card" open><summary>Fiche du document</summary><dl>' +
       '<dt>Section</dt><dd><a href="#/c/' + catByName[p.c].slug + '">' + esc(p.c) + '</a></dd>' +
       '<dt>Statut de rédaction</dt><dd>' + statusBadge(p) + '</dd>' +
@@ -316,6 +358,7 @@
       '<h1 class="page-title">' + esc(p.t) + '</h1>' + badges(p);
     if (p.s === 'En cours de rédaction' || p.s === 'À modifier') h += '<div class="banner ' + sClass(p.s) + '"><strong>Statut : ' + esc(p.s) + '.</strong> Le contenu de ce document n\'est pas définitif.</div>';
     if (p.arch) h += '<div class="banner arch"><strong>Archive.</strong> Ancienne version conservée pour mémoire ; consulter la version la plus récente de la même section.</div>';
+    if (p.sheet) h += '<div class="banner arch"><strong>Feuille de calcul.</strong> Un onglet = un tableau (triable, filtrable). Le fichier d\'origine est exporté en valeurs : les cellules vides ne sont pas conservées, des lignes peuvent donc sembler décalées par rapport à l\'en-tête.</div>';
     if (p.a === 'staff') h += '<div class="banner lvl-staff"><strong>Document staff.</strong> Réservé au pôle RP / staff, ne pas diffuser aux joueurs.</div>';
     h += metaCard(p).replace('<details class="meta-card" open>', window.innerWidth < 900 ? '<details class="meta-card">' : '<details class="meta-card" open>');
     h += '<div id="docHost"><p class="loading">Chargement du document…</p></div>';
@@ -350,6 +393,7 @@
       var a = document.createElement('a'); a.className = 'anchor'; a.href = pageHref(key, h.id); a.setAttribute('aria-label', 'Lien vers cette section'); a.textContent = '¶';
       h.appendChild(a);
     });
+    enhanceSheets(root);
     enhanceTables(root);
     linkGlossary(root);
     if (q) highlight(root, q);
@@ -357,7 +401,32 @@
     var target = null;
     if (anchor) { target = document.getElementById(anchor); }
     else if (q) { target = $('mark', root); }
-    if (target) setTimeout(function () { target.scrollIntoView({ block: 'center' }); }, 30);
+    if (target) { revealTab(target); setTimeout(function () { target.scrollIntoView({ block: 'center' }); }, 30); }
+  }
+
+  /* feuilles de calcul : un onglet par tableau */
+  function activateTab(panel) {
+    var root = panel.parentNode;
+    $$('.sheet-tab', root).forEach(function (t) { t.hidden = t !== panel; });
+    $$('.sheet-tabbar [role=tab]', root).forEach(function (b) { var on = b.getAttribute('data-for') === panel.getAttribute('data-i'); b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1; });
+  }
+  function revealTab(el) { var t = el.closest && el.closest('.sheet-tab'); if (t && t.hidden) activateTab(t); }
+  function enhanceSheets(root) {
+    var tabs = $$('.sheet-tab', root);
+    if (tabs.length < 2) return;
+    var bar = document.createElement('div'); bar.className = 'sheet-tabbar'; bar.setAttribute('role', 'tablist'); bar.setAttribute('aria-label', 'Onglets de la feuille');
+    tabs.forEach(function (t, i) {
+      t.setAttribute('data-i', i); t.setAttribute('role', 'tabpanel');
+      var b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('data-for', i); b.textContent = t.getAttribute('data-tab') || ('Onglet ' + (i + 1));
+      b.addEventListener('click', function () { activateTab(t); });
+      b.addEventListener('keydown', function (e) {
+        var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : -1;
+        if (j >= 0 && j < tabs.length) { e.preventDefault(); activateTab(tabs[j]); $$('.sheet-tabbar button', root)[j].focus(); }
+      });
+      bar.appendChild(b);
+    });
+    tabs[0].parentNode.insertBefore(bar, tabs[0]);
+    activateTab(tabs[0]);
   }
 
   function enhanceTables(root) {
@@ -491,6 +560,9 @@
   document.addEventListener('click', function (e) { var el = e.target.closest && e.target.closest('.gl'); if (el) { if (tipFor === el && !tip.hidden) hideTip(true); else showTip(el); } else if (!(e.target.closest && e.target.closest('#glTip'))) hideTip(true); });
   window.addEventListener('scroll', function () { if (!tip.hidden) hideTip(true); }, { passive: true });
 
+  /* images du wiki : si le chargement échoue (hors ligne, wiki indisponible), le texte reste intact */
+  document.addEventListener('error', function (e) { var t = e.target; if (t && t.tagName === 'IMG' && t.classList.contains('wimg')) { t.classList.add('wimg-broken'); t.alt = 'Image non chargée'; } }, true);
+
   /* sommaire : surbrillance de la section courante */
   var spy = null;
   function setupSpy(root) {
@@ -620,6 +692,35 @@
     };
   }
 
+  /* ------------------------------------------------------------------ contradictions connues / contenu non disponible */
+  function contraView() {
+    var h = '<h1 class="page-title">Contradictions connues</h1><p class="result-meta">Quand deux documents se contredisent, le site affiche les deux passages tels quels et ne tranche pas. Les extraits sont des citations exactes ; la mention « Signalé » reprend l\'information transmise avec le dossier.</p>';
+    CONTRA.forEach(function (c) {
+      var shown = c.items.filter(function (i) { return LEVELS.indexOf(i.a) <= modeIdx(); }), hid = c.items.length - shown.length;
+      var links = c.links.filter(function (l) { return LEVELS.indexOf(l.a) <= modeIdx(); });
+      h += '<section class="contra"><h2>' + esc(c.titre) + '</h2><p><strong>Signalé :</strong> ' + esc(c.note) + '</p>' +
+        shown.map(function (i) {
+          var p = pageByKey[i.k];
+          return '<blockquote>' + esc(i.text) + '</blockquote><p class="src">Source : <a href="' + pageHref(i.k) + '">' + esc(p.t) + '</a> ' + accessBadge(p) + '</p>';
+        }).join('') +
+        (hid ? '<p class="nd">' + plural(hid, 'extrait provient', 'extraits proviennent') + ' de documents d\'un niveau supérieur (passez au niveau « Staff » pour les voir).</p>' : '') +
+        (links.length ? '<p>Documents concernés : ' + links.map(function (l) { return '<a href="' + pageHref(l.k) + '">' + esc(pageByKey[l.k].t) + '</a>'; }).join(' · ') + '</p>' : '') +
+        (c.check && shown.length ? '<p class="check"><strong>Constat sur cet instantané :</strong> ' + esc(c.check) + '</p>' : '') + '</section>';
+    });
+    return { html: h, title: 'Contradictions connues — Elderwood' };
+  }
+  function missingView() {
+    var h = '<h1 class="page-title">Contenu non disponible</h1><p class="result-meta">Ces documents n\'ont <strong>pas pu être lus</strong> : ils ne sont pas repris sur ce site et rien n\'est supposé de leur contenu.</p>' +
+      '<div class="doc"><h2>Hors de portée de l\'export</h2><ul>' +
+      '<li>Cinq guides Notion de suivis MJ : Notion exige JavaScript, le contenu n\'a pas pu être récupéré.</li>' +
+      '<li>Organigramme des métiers : document Canva, non lisible par export.</li>' +
+      '<li>Organigramme légal : document Miro, non lisible par export.</li></ul>' +
+      '<h2>Non partagés avec le compte utilisé pour l\'export</h2><ul>' +
+      '<li>Boucles RP school</li><li>B.R.U.M.E</li><li>Guide candidatures naissance famille</li><li>Suivi familles non officielles</li><li>Suivi des lieux in-game</li></ul>' +
+      '<p>Contenu de chacun : <span class="nd">non documenté</span>. Dès qu\'un de ces documents est partagé ou exporté, il peut être ajouté (voir le README).</p></div>';
+    return { html: h, title: 'Contenu non disponible — Elderwood' };
+  }
+
   /* ------------------------------------------------------------------ à propos */
   function aboutView() {
     var rows = M.categories.map(function (c) {
@@ -628,7 +729,7 @@
     }).join('');
     var lv = LEVELS.slice(0, maxAudience + 1).map(function (l) { return '<tr><td>' + accessBadge({ a: l }) + '</td><td>' + M.pages.filter(function (p) { return p.a === l; }).length + '</td></tr>'; }).join('');
     var h = '<h1 class="page-title">À propos & sources</h1>' +
-      '<div class="doc"><p>Cette bibliothèque reprend, sans résumé ni reformulation, les documents de travail du serveur RP Elderwood (lore, règlements, outils du pôle RP). ' + esc(M.snapshot) + ' : les documents d\'origine continuent d\'évoluer.</p>' +
+      '<div class="doc"><p>Cette bibliothèque reprend, sans résumé ni reformulation, les documents de travail du serveur RP Elderwood (lore, règlements, outils du pôle RP) ainsi que son wiki public. ' + esc(M.snapshot) + ' : les documents d\'origine continuent d\'évoluer.</p>' +
       '<h2>Niveaux d\'accès</h2><p>Chaque page porte un badge <em>Public</em>, <em>Joueurs</em> ou <em>Staff</em>. Le sélecteur en haut à droite choisit le niveau affiché : par défaut « Joueurs », les documents staff n\'apparaissent ni dans la navigation, ni sur l\'accueil, ni dans la recherche. Dans le doute, un document est classé « Staff ». <strong>Ce filtre n\'est pas une protection</strong> : pour publier sans les pages staff, générer la version « joueurs » ou « public » (voir le README).</p>' +
       '<h2>Statuts de rédaction</h2><div class="badges"><span class="badge s-valide">Validé</span><span class="badge s-possible">Possibilité de modifier</span><span class="badge s-encours">En cours de rédaction</span><span class="badge s-amodifier">À modifier</span><span class="badge s-none">Statut non documenté</span></div>' +
       '<h2>À savoir</h2><ul><li>Plusieurs versions d\'un même document coexistent (Brumval v1 à v4, Aerwyn v1/v2, copies du Pacte du Voile, brouillons de Constitution) : la version la plus récente est listée en premier, les anciennes sont rangées dans « Archives ».</li>' +
@@ -636,7 +737,8 @@
       '<li>Les feuilles de calcul ne sont reprises qu\'en valeurs, et seulement le premier onglet pour certaines.</li>' +
       '<li>Une information absente de la source est affichée « non documenté ».</li>' +
       '<li>Les fiches de candidature individuelles, les adresses e-mail et les pseudos Discord des tableaux ne sont pas publiés.</li></ul>' +
-      '<h2>Documents liés non intégrés</h2><p>Ces documents n\'ont pas pu être lus (non partagés, ou hébergés sur Notion, Canva ou Miro) : contenu à venir.</p><ul><li>Boucles RP school</li><li>B.R.U.M.E</li><li>Guide candidatures naissance</li><li>Familles non officielles</li><li>Suivi des lieux in-game</li><li>Cinq guides Notion de suivis MJ</li><li>Organigrammes Canva et Miro</li></ul>' +
+      '<h2>Documents non intégrés</h2><p>Plusieurs documents n\'ont pas pu être lus : voir <a href="#/non-disponible">Contenu non disponible</a>. Les divergences entre documents sont listées dans <a href="#/contradictions">Contradictions connues</a>.</p>' +
+      '<h2>Wiki officiel</h2><p>La section « Wiki officiel WikiWood (public) » reprend les pages du wiki public (wiki.elderwood-rp.com) dans leur arborescence d\'origine. Le wiki change souvent : cette copie est un instantané. Les images du wiki sont chargées depuis le wiki lui-même.</p>' +
       '<h2>Contrôle des volumes</h2><p>' + plural(M.count, 'page', 'pages') + ' dans ce build ; ' + plural(visiblePages().length, 'page affichée', 'pages affichées') + ' au niveau « ' + esc(LNAME[mode]) + ' ».</p>' +
       '<div class="tbl-wrap"><table class="doc-table"><thead><tr><th>Niveau</th><th>Pages</th></tr></thead><tbody>' + lv + '</tbody></table></div>' +
       '<div class="tbl-wrap"><table class="doc-table"><thead><tr><th>Section</th><th>Pages (build)</th><th>Pages affichées</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
@@ -656,12 +758,14 @@
     var routeKey = p.slice(0, 2).join('/');
     if (p[0] === 'p' && p[1]) {
       cur = { type: 'page', key: p[1] };
-      if (lastKey === routeKey && $('#doc') && p[2] && !r.params.get('q')) { var t = document.getElementById(p[2]); if (t) { t.scrollIntoView({ block: 'start' }); renderSidebar(cur); return; } }
+      if (lastKey === routeKey && $('#doc') && p[2] && !r.params.get('q')) { var t = document.getElementById(p[2]); if (t) { revealTab(t); t.scrollIntoView({ block: 'start' }); renderSidebar(cur); return; } }
       out = pageView(p[1], p[2], r.params.get('q')); scrollTop = !p[2];
     } else if (p[0] === 'c' && p[1]) { cur = { type: 'cat', slug: p[1] }; out = catView(p[1]); }
     else if (p[0] === 'recherche') { cur = { type: 'search' }; out = searchView(r.params); }
     else if (p[0] === 'glossaire') { cur = { type: 'gloss' }; out = glossaryView(r.params); }
     else if (p[0] === 'a-propos') { cur = { type: 'about' }; out = aboutView(); }
+    else if (p[0] === 'contradictions') { cur = { type: 'contra' }; out = contraView(); }
+    else if (p[0] === 'non-disponible') { cur = { type: 'missing' }; out = missingView(); }
     else { cur = { type: 'home' }; out = homeView(); }
     lastKey = routeKey;
     view.classList.remove('has-toc');

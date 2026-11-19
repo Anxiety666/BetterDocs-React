@@ -1,0 +1,57 @@
+# Obligeante des haies
+
+- Catégorie : Wiki officiel WikiWood (public)
+
+---
+
+# Obligeante des haies
+URL: https://wiki.elderwood-rp.com/herbier/plantes-innofensives/obligeante-des-haies
+
+
+<p align="center"><img src="/media/135b62762b9317d8a492048e.jpg" width="500"></p>
+
+*Aliena vulneraria*
+### **Libre**
+
+L'**Obligeante des haies** est une plante magique commune des pieds de haies, dont la feuille écrasée referme une plaie récente en quelques minutes. Elle n'agit qu'à une condition, connue avec précision et jamais expliquée : il faut qu'une autre main que celle du blessé l'applique.
+
+**Description :**
+Plante de vingt à quarante centimètres, à tiges couchées à la base puis redressées, souples et légèrement velues. Feuilles opposées, molles, d'un vert sombre. Fleurs petites, d'un blanc terne, toujours groupées par deux. Les capsules contiennent invariablement deux graines.
+
+Tous ses organes vont par paires, sans exception relevée. Le caractère est constant, il sert à l'identification, et il a nourri plus de commentaires que de conclusions.
+
+La feuille froissée rend une sève épaisse et claire, sans odeur marquée, qui brunit à l'air en une heure environ et devient alors inerte.
+
+**Habitat et répartition :**
+Pieds de haies, lisières, talus ombragés, bords de chemins creux. Extrêmement commune dans les pays de bocage, où l'on n'a jamais eu à la cultiver.
+
+Elle supporte la tonte et la coupe, et repart de souche. C'est une des rares plantes magiques qu'un promeneur a de bonnes chances d'avoir sous la main au moment où il en a besoin.
+
+**Propriétés :**
+Appliquée fraîchement écrasée sur une plaie ouverte de moins d'une heure, elle en referme les bords en trois à cinq minutes. Le saignement cesse, la plaie se ferme proprement et ne laisse généralement pas de cicatrice.
+
+L'application doit être faite par une autre personne que le blessé. Appliquée par le blessé lui même, la sève sèche et reste inerte, sans aucun effet.
+
+Les conditions de cette règle ont été cherchées longtemps et sont maintenant bien établies. Le remède agit si celui qui l'applique ignore ce qu'il fait, s'il est un étranger, s'il est un ennemi, et même s'il est l'auteur de la blessure. Il agit si le blessé tient la feuille en même temps qu'un autre. Il n'agit pas si le blessé se soigne au moyen d'un dispositif qu'il a monté lui même, ni s'il est trompé sur l'origine de la main qui le soigne. Ce n'est donc ni une affaire d'intention, ni une affaire de croyance.
+
+Aucune explication n'est retenue à ce jour. La fiche s'en tient à la règle.
+
+**Usages :**
+Premiers soins courants, coupures, entailles d'outil, plaies de ronce. Les infirmeries en tiennent un bac, les compagnies en campagne en emportent séchée, ce qui divise son efficacité par deux environ mais la rend transportable.
+
+Dans plusieurs pays de bocage, l'usage veut qu'on ne parte pas seul à la coupe ni à la chasse. La raison invoquée est presque toujours l'Obligeante, et non le gibier.
+
+**Limites et précautions :**
+Elle ne referme que ce qu'elle touche, c'est à dire la surface. Une plaie profonde ou une plaie par pointe se ferme en peau tout en continuant de saigner en dessous, et l'amélioration apparente est alors trompeuse. Elle est déconseillée sur les blessures étroites et profondes, où il vaut mieux laisser ouvert.
+
+Elle ne fait rien contre la maladie, le venin, les brûlures et les fractures, et ne rend pas le sang déjà perdu. Un blessé refermé peut parfaitement mourir de ce qu'il avait déjà perdu avant.
+
+Passé une heure environ, la plaie ne répond plus. La sève brunie ne répond plus non plus : on cueille au moment de s'en servir.
+
+**Croyances répandues :**
+On dit qu'elle récompense l'amitié et qu'elle refuse de servir entre ennemis. C'est faux dans les deux sens : elle agit entre inconnus, elle agit entre ennemis, et elle agit dans la main de celui qui vient de blesser. Le seul cas où elle refuse est celui du blessé qui se soigne seul.
+
+**Enseignement :**
+Programme de troisième année. Elle sert d'exemple d'effet conditionnel, et surtout d'exemple d'une règle que l'on connaît exactement sans en connaître la raison. Le cours insiste sur ce point : l'herbier décrit ce qui se produit et ne bouche pas les trous avec des hypothèses commodes.
+
+L'exercice usuel consiste à faire dresser aux élèves la liste des conditions déjà éprouvées, puis à leur demander d'en proposer une nouvelle qui n'a pas encore été essayée. Les propositions sérieuses sont transmises au cours supérieur.

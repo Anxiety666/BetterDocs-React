@@ -14,7 +14,7 @@ const ok = (c, msg) => { console.log((c ? 'OK   ' : 'FAIL ') + msg); if (!c) fai
   const p = await ctx.newPage();
   const errs = [];
   p.on('pageerror', e => errs.push(e.message));
-  p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
+  p.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) errs.push(m.text()); });   // images du wiki : réseau du bac à sable
   await p.goto(base);
   await p.evaluate(() => localStorage.setItem('ew-mode', 'staff'));
   await p.goto(base + '#/'); await p.reload(); await p.waitForSelector('.card');
@@ -22,7 +22,7 @@ const ok = (c, msg) => { console.log((c ? 'OK   ' : 'FAIL ') + msg); if (!c) fai
   // 1. nombre de pages
   const total = await p.evaluate(() => window.EWApp.manifest.count);
   ok(total === pagesJson.length, `pages dans le manifeste (${total}) = pages dans pages.json (${pagesJson.length})`);
-  const sideLinks = await p.evaluate(() => document.querySelectorAll('#sideNav .sn-list a').length);
+  const sideLinks = await p.evaluate(() => new Set([...document.querySelectorAll('#sideNav a[href^="#/p/"]')].map(a => a.getAttribute('href'))).size);
   ok(sideLinks === pagesJson.length, `liens de pages dans la navigation latérale (${sideLinks}) = pages.json (${pagesJson.length})`);
   const keysOk = await p.evaluate(ks => ks.every(k => window.EWApp.manifest.pages.some(x => x.k === k)), pagesJson.map(x => x.k));
   ok(keysOk, 'toutes les clés de pages.json sont dans le manifeste');
@@ -53,6 +53,24 @@ const ok = (c, msg) => { console.log((c ? 'OK   ' : 'FAIL ') + msg); if (!c) fai
   ok(shown === pagesJson.length, `pages réellement affichées (${shown}) = pages.json (${pagesJson.length})`);
   ok(bad.length === 0, 'aucun texte tronqué : ' + (bad.length ? bad.slice(0, 8).join(' ; ') : 'tous les mots de chaque page sont présents'));
 
+  // 2b. wiki, feuilles à onglets, pages d'information
+  const wk = await p.evaluate(() => window.EWApp.manifest.pages.filter(x => x.wiki));
+  ok(wk.length === pagesJson.filter(x => x.k.startsWith('wiki-')).length && wk.length === 99 && wk.every(x => x.a === 'public' && x.u !== undefined), `wiki : ${wk.length} pages, toutes publiques, avec leur chemin d'origine`);
+  await p.goto(base + '#/p/wiki-bestiaire--rang-a--jackalope'); await p.waitForSelector('#doc');
+  ok(await p.evaluate(() => !!document.querySelector('#sideNav a.current') && document.querySelector('#sideNav a.current').closest('details.sn-cat').open), 'wiki : la page courante est dépliée dans l\'arborescence latérale');
+  ok(await p.evaluate(() => document.querySelectorAll('.hint, .doc-table').length >= 0 && document.querySelector('#doc h2,#doc h3,#doc h4,#doc h5') !== null), 'wiki : titres rendus');
+  await p.goto(base + '#/p/wiki-accueil'); await p.waitForSelector('#doc p.ref a');
+  ok(await p.evaluate(() => [...document.querySelectorAll('#doc p.ref a')].every(a => a.getAttribute('href').startsWith('#/p/'))), 'wiki : renvois {% content-ref %} convertis en liens internes');
+  await p.goto(base + '#/p/sheet-items-jobs-illegaux'); await p.waitForSelector('.sheet-tabbar');
+  const tabs = await p.evaluate(() => ({ n: document.querySelectorAll('.sheet-tabbar [role=tab]').length, visible: [...document.querySelectorAll('.sheet-tab')].filter(t => !t.hidden).length, tables: document.querySelectorAll('.sheet-tab table').length }));
+  ok(tabs.n === 7 && tabs.visible === 1 && tabs.tables >= 7, `feuille à onglets : ${tabs.n} onglets, 1 visible, ${tabs.tables} tableaux`);
+  await p.click('.sheet-tabbar [role=tab]:nth-child(2)');
+  ok(await p.evaluate(() => document.querySelector('.sheet-tab:not([hidden])').getAttribute('data-tab') === 'Braconnier'), 'feuille : changement d\'onglet');
+  await p.goto(base + '#/contradictions'); await p.waitForSelector('.contra');
+  ok(await p.locator('.contra').count() === 5 && await p.locator('.contra blockquote').count() >= 6, 'page « Contradictions connues » : 5 sujets avec extraits des deux côtés');
+  await p.goto(base + '#/non-disponible'); await p.waitForSelector('.doc');
+  ok(/B\.R\.U\.M\.E/.test(await p.locator('.doc').innerText()) && /Miro/.test(await p.locator('.doc').innerText()), 'page « Contenu non disponible » listant les 12 documents non lus');
+
   // 3. recherche
   const q = async (text, filt = {}) => p.evaluate(([t, f]) => window.EWApp.Search.run(t, f).results.map(r => r.k), [text, filt]);
   let r = await q('résonance'); ok(r.length >= 10, `recherche « résonance » : ${r.length} résultats`);
@@ -60,7 +78,7 @@ const ok = (c, msg) => { console.log((c ? 'OK   ' : 'FAIL ') + msg); if (!c) fai
   r = await q('cristal-cœur'); ok(r.includes('cristaux-coeurs'), 'recherche « cristal-cœur » trouve les Cristaux-Cœurs');
   r = await q('Brumval', { c: 'Trames' }); ok(r.length > 0 && r.every(k => pagesJson.find(x => x.k === k).cat === 'Trames'), `filtre par section (Trames) : ${r.length} résultats`);
   r = await q('', { s: 'En cours de rédaction' }); ok(r.length === 7, `filtre statut « En cours de rédaction » : ${r.length} pages (attendu 7)`);
-  r = await q('', { a: 'public' }); ok(r.length === 3, `filtre accès « public » : ${r.length} pages (attendu 3)`);
+  r = await q('', { a: 'public' }); ok(r.length === 102, `filtre accès « public » : ${r.length} pages (attendu 102 = 3 documents + 99 pages wiki)`);
   r = await q('Basile Roncefort'); ok(r.length > 0, '« Basile Roncefort » : ' + r.length + ' résultats (staff)');
   // phrase unique prise dans un document profond
   r = await q('Peregrine le Sage'); ok(r[0] === 'histoire-amru-lois', '« Peregrine le Sage » -> ' + r[0]);
@@ -80,6 +98,7 @@ const ok = (c, msg) => { console.log((c ? 'OK   ' : 'FAIL ') + msg); if (!c) fai
   ok(!/[\w.+-]+@[\w-]+\.[\w.]+/.test(all), 'aucune adresse e-mail dans le texte publié');
   ok(!/ouid=/.test(all), 'aucun identifiant de compte Google (ouid) dans le texte publié');
   ok(!/Shaeryn|berangereci/i.test(all), 'ni pseudo Discord ni e-mail identifiés dans le texte publié');
+  ok(!/malgachou|captainorion|massilia|eclypseoff/i.test(searchText['sheet-prof-tableau'] + searchText['sheet-gestion-ecole']), 'pseudos Discord masqués dans les feuilles des professeurs');
   ok(/non publi/i.test(searchText['fiche-cordelia-ravenscroft']) && searchText['fiche-cordelia-ravenscroft'].length < 300, 'fiche de candidature individuelle non publiée');
 
   ok(errs.length === 0, 'aucune erreur JavaScript/console' + (errs.length ? ' : ' + errs.slice(0, 3).join(' | ') : ''));

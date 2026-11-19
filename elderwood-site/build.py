@@ -10,6 +10,7 @@ Usage :
 Ne dépend que de la bibliothèque standard Python 3.8+.
 """
 import argparse, csv, html, io, json, re, shutil, sys, unicodedata
+import wikimd
 from collections import Counter
 from pathlib import Path
 
@@ -110,7 +111,9 @@ def looks_like_handle(v, cfg):
     parts = [compact(x) for x in re.split(r"[/,;]", t) if x.strip()]
     if len(t.split()) <= 4 and parts and any(p in HANDLES for p in parts):
         return True
-    return bool(re.match(r"^[\w.\-]+$", t)) and not re.match(r"^[A-ZÉÈÀ][a-zéèêàùç]{3,}$", t) or bool(re.match(r"^[\w.\-]*\d[\w.\-]*$", t))
+    if "/" in t and all(re.match(r"^[\w.\-]+$", x.strip()) for x in t.split("/") if x.strip()):
+        return True                      # « Blade / ayuutsu »
+    return bool(re.match(r"^[\w.\-]+$", t))
 
 def redact_rows(rows, cfg, log):
     """Masque les pseudos/contacts des colonnes « Discord » et « Contact » (rows[0] = en-tête)."""
@@ -772,28 +775,32 @@ def render_list(d, seq):
     d.text.append("\n".join("• " + t for t in texts))
 
 # --------------------------------------------------------------------------- feuilles de calcul
+SHEET_MARK = re.compile(r"^#{5}\s*(?:FEUILLE|ONGLET)\s*:\s*(.*?)\s*#*\s*$")
+
 def split_sheet_sections(body, cfg, log):
-    """Retourne une liste de ('h', texte) | ('p', texte) | ('t', rows)."""
+    """Retourne une liste de ('h', nom d'onglet) | ('p', texte) | ('t', rows). Un onglet = un tableau."""
     lines = body.replace("\r", "").split("\n")
-    sections = []
-    use_csv = not any(" | " in l for l in lines)       # feuille exportée en CSV (virgules) ou en colonnes « a | b | c »
-    if use_csv:
-        rdr = csv.reader(io.StringIO("\n".join(lines)))
-        rows = [r for r in rdr]
-        return sheet_rows_to_sections(rows, cfg, log)
-    cur = []
-    def flush():
-        nonlocal cur
-        if cur:
-            sections.extend(sheet_rows_to_sections(cur, cfg, log))
-            cur = []
+    tabs, name, cur = [], None, []
     for ln in lines:
-        if ln.startswith("##### FEUILLE"):
-            flush()
-            sections.append(("h", ln.split(":", 1)[1].strip() if ":" in ln else ln.lstrip("# ")))
+        m = SHEET_MARK.match(ln)
+        if m:
+            if cur or name is not None:
+                tabs.append((name, cur))
+            name, cur = m.group(1), []
+        else:
+            cur.append(ln)
+    tabs.append((name, cur))
+    sections = []
+    for name, tl in tabs:
+        if name is not None:
+            sections.append(("h", name))
+        if not any(t.strip() for t in tl):
             continue
-        cur.append([c.strip() for c in ln.split(" | ")] if ln.strip() else [])
-    flush()
+        if any(" | " in l for l in tl):
+            rows = [[c.strip() for c in l.split(" | ")] if l.strip() else [] for l in tl]
+        else:                              # onglet exporté en CSV (virgules)
+            rows = [r for r in csv.reader(io.StringIO("\n".join(tl)))]
+        sections.extend(sheet_rows_to_sections(rows, cfg, log))
     return sections
 
 def sheet_rows_to_sections(rows, cfg, log):
@@ -847,7 +854,7 @@ def sheet_rows_to_sections(rows, cfg, log):
         gap = 0
         if len(nz) >= 2:
             tbl.append(list(r))
-        elif tbl and len(r) >= 3:
+        elif tbl and (len(r) >= 3 or len(tbl) >= 2):
             tbl.append(list(r))      # ligne dont une seule cellule est remplie, au sein d'un tableau
         else:
             flush()
@@ -859,14 +866,21 @@ def sheet_rows_to_sections(rows, cfg, log):
 def parse_sheet(body, title, cfg, log):
     d = Doc(title)
     secs = split_sheet_sections(body, cfg, log)
+    open_tab = False
     for typ, val in secs:
         if typ == "h":
+            if open_tab:
+                d.html.append("</div>")
+            d.html.append('<div class="sheet-tab" data-tab="%s">' % html.escape(val, quote=True))
+            open_tab = True
             d.heading(2, val)
         elif typ == "p":
             d.para(val)
         else:
             d.html.append(table_html(val, "data-table"))
             d.text.append(rows_text(val))
+    if open_tab:
+        d.html.append("</div>")
     if not secs:
         d.para("Aucune donnée dans la source (non documenté).")
     return d
@@ -897,7 +911,27 @@ def build(args):
     errors = []
     if sorted(src_keys) != files:
         errors.append("pages.json et content/*.md ne correspondent pas : %s / %s" % (sorted(set(src_keys) - set(files)), sorted(set(files) - set(src_keys))))
+    # --- wiki : chemin d'origine de chaque page (champ « URL: »), ordre = ordre des renvois de l'accueil puis arborescence
+    wcfg = cfg.get("wiki", {})
+    wiki_path = {}
+    for p_ in pages_src:
+        if p_["k"].startswith("wiki-") and (CONTENT / (p_["k"] + ".md")).exists():
+            u_, _l = wikimd.parse_page(load_page(p_["k"])[1])
+            if u_:
+                wiki_path[p_["k"]] = u_.split(wcfg.get("base", wikimd.WIKI_BASE) + "/", 1)[-1].strip("/")
+    path_to_key = {v: k for k, v in wiki_path.items()}
+    tops = []
+    if "wiki-accueil" in wiki_path:
+        _u, acc_lines = wikimd.parse_page(load_page("wiki-accueil")[1])
+        tops = [m_.group(1).strip("/") for m_ in re.finditer(r'content-ref url="([^"]+)"', "\n".join(acc_lines))]
+    def wrank(k):
+        segs = wiki_path.get(k, "").split("/")
+        t = segs[0]
+        return (-1 if k == "wiki-accueil" else (tops.index(t) if t in tops else len(tops)), segs)
     cats = cfg["categories"]
+    wcat = wcfg.get("category")
+    if wcat:
+        cfg["order"][wcat] = sorted(wiki_path, key=wrank)
     order = {}
     for c in cats:
         o = cfg["order"].get(c, [])
@@ -911,6 +945,8 @@ def build(args):
 
     acc_cfg = cfg["access"]
     def access_of(k):
+        if any(k.startswith(pref) for pref in acc_cfg.get("prefix_public", [])):
+            return "public"
         if k in acc_cfg["public"]:
             return "public"
         if k in acc_cfg["joueurs"]:
@@ -930,7 +966,23 @@ def build(args):
         log = []
         withheld = cfg["withheld"].get(k)
         is_sheet = k.startswith("sheet-")
-        if withheld:
+        is_wiki = k in wiki_path
+        if is_wiki:
+            body_r = redact_text(body, cfg, log)
+            _u, wlines = wikimd.parse_page(body_r)
+            wk = wikimd.Wiki(path_to_key, wcfg.get("base", wikimd.WIKI_BASE))
+            w_html = wk.render(wlines)
+            d = Doc(title)
+            d.html.append(w_html); d.text.extend(wk.text); d.toc = wk.toc
+            if wk.unknown:
+                errors.append("%s : balises GitBook non gérées : %s" % (k, wk.unknown[:3]))
+            exp = tokens(wikimd.expected_tokens(wlines))
+            got = tokens(html.unescape(re.sub(r"<[^>]+>", " ", w_html)))
+            if exp != got:
+                idx = next((i for i, (a, b) in enumerate(zip(exp, got)) if a != b), min(len(exp), len(got)))
+                errors.append("%s : écart de contenu au mot #%d (source %r / rendu %r) ; %d vs %d mots" % (k, idx, exp[idx:idx + 5], got[idx:idx + 5], len(exp), len(got)))
+            check = ("wiki", len(exp), len(got))
+        elif withheld:
             body_r = ""
             d = Doc(title)
             d.html.append('<div class="callout withheld"><p><strong>Contenu non publié.</strong> %s</p></div>' % esc(withheld))
@@ -942,7 +994,7 @@ def build(args):
             # --- contrôle d'intégrité : tous les mots de la source se retrouvent dans la page rendue
             rendered = re.sub(r"<[^>]+>", " ", "".join(d.html))
             rendered = html.unescape(rendered)
-            exp = tokens(re.sub(r"^##### FEUILLE:", "", re.sub(r"\\([\[\]*_#>~`|])", r"\1", body_r), flags=re.M))
+            exp = tokens(re.sub(r"^#{5}\s*(?:FEUILLE|ONGLET)\s*:|#{5}\s*$", "", re.sub(r"\\([\[\]*_#>~`|])", r"\1", body_r), flags=re.M))
             got = tokens(rendered)
             if is_sheet:
                 # feuilles : comparaison en multiensemble, hors cellules volontairement masquées
@@ -971,6 +1023,9 @@ def build(args):
             "meta": bool(m), "w": words,
             "arch": k in cfg["archives"], "withheld": bool(withheld), "sheet": is_sheet,
         }
+        if is_wiki:
+            entry["wiki"] = True
+            entry["u"] = wiki_path[k]
         manifest_pages.append(entry)
         search_docs.append({"k": k, "x": text})
         page_files[k] = {"html": html_body, "toc": d.toc}
@@ -985,6 +1040,39 @@ def build(args):
         "pages": manifest_pages, "count": len(manifest_pages),
     }
     return cfg, manifest, search_docs, page_files, report, errors
+
+def cite_text(texts, c):
+    """Extrait exact d'un texte source : de c['from'] jusqu'à c['to'] (ou la fin de la phrase). None si introuvable."""
+    flat = texts.get(c["k"])
+    if flat is None:
+        return None
+    i = flat.find(c["from"])
+    if i < 0:
+        return None
+    if c.get("to"):
+        j = flat.find(c["to"], i)
+        if j < 0:
+            return None
+        seg = flat[i:j + len(c["to"])]
+    else:
+        seg = flat[i:]
+        m = re.search(r"(?<=[.!?»])\s|\n", seg)
+        seg = seg[:m.start()] if m else seg
+    return re.sub(r"\s*\n\s*", " · ", seg).strip().replace("• ", "")
+
+def resolve_contradictions(entries, texts, pages, errors):
+    out = []
+    for e in entries:
+        items = []
+        for c in e.get("sources", []):
+            t = cite_text(texts, c)
+            if t is None:
+                errors.append("contradictions : citation introuvable dans %s : %r" % (c["k"], c["from"]))
+                continue
+            items.append({"k": c["k"], "a": pages[c["k"]]["a"], "text": t})
+        links = [{"k": k, "a": pages[k]["a"]} for k in e.get("links", []) if k in pages]
+        out.append({"titre": e["titre"], "note": e.get("note", ""), "check": e.get("check", ""), "items": items, "links": links})
+    return out
 
 def resolve_glossary(entries, texts, pages, errors):
     """Chaque définition est une citation exacte du texte source (aucune reformulation)."""
@@ -1056,6 +1144,12 @@ def main():
     if data.exists():
         shutil.rmtree(data)
     (data / "pages").mkdir(parents=True)
+    cpath = ROOT / "config" / "contradictions.json"
+    contra = resolve_contradictions(json.loads(cpath.read_text(encoding="utf-8")) if cpath.exists() else [], search_all, manifest_all, errors)
+    for c_ in contra:
+        c_["items"] = [i_ for i_ in c_["items"] if i_["k"] in keep]
+        c_["links"] = [l_ for l_ in c_["links"] if l_["k"] in keep]
+    write_js(data / "contradictions.js", "window.EW.contradictions=", contra)
     glossary_path = ROOT / "config" / "glossary.json"
     glossary = resolve_glossary(json.loads(glossary_path.read_text(encoding="utf-8")) if glossary_path.exists() else [], search_all, manifest_all, errors)
     keep_g = []

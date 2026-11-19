@@ -1,0 +1,1 @@
+window.EW=window.EW||{pages:{}};window.EW.pages["wiki-herbier"]={"html":"<p class=\"ref\">Plantes innoffensives<\/p><p class=\"ref\">Plantes surveillées<\/p><p class=\"ref\">Plantes règlementées<\/p><p class=\"ref\">Plantes consignées<\/p><p class=\"ref\">Plantes interdites<\/p>","toc":[]};

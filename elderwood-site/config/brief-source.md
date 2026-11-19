@@ -1,13 +1,13 @@
 # ELDERWOOD RP : dossier complet pour construire le site du lore
 
-Version du 19/11/2026. Préparé pour Antonio Tomassi (staff / support lore). Contient 113 documents (2281 Ko de texte), tous issus de ses Google Docs, feuilles et PDF.
+Version du 19/11/2026. Préparé pour Antonio Tomassi (staff / support lore). Contient 212 documents (2606 Ko de texte), tous issus de ses Google Docs, feuilles et PDF.
 
 ## 0. Mission pour Claude (à lire en premier)
 
 Construire un site web (statique, un seul dossier, sans backend) qui affiche **tout le contenu** des documents ci-dessous, **directement lisible sur les pages**, sans aucun lien vers Google Drive. Les liens Drive d'origine ne doivent PAS servir de contenu : tout est copié ici.
 
 ### Ce que le site doit offrir
-1. Accueil sombre et soigné (thème école de magie, ambiance Elderwood), avec les 19 grandes sections en cartes.
+1. Accueil sombre et soigné (thème école de magie, ambiance Elderwood), avec les 20 grandes sections en cartes.
 2. Une page par document, avec le texte complet, un sommaire automatique, le statut de rédaction, le responsable et le niveau d'accès (voir §3).
 3. Recherche plein texte instantanée sur tout le site (index construit côté navigateur, ex. lunr.js ou fuse.js), avec filtre par section.
 4. Navigation : menu latéral par section, fil d'Ariane, boutons précédent/suivant, mode clair/sombre, lisible sur téléphone.
@@ -99,7 +99,7 @@ Construire un site web (statique, un seul dossier, sans backend) qui affiche **t
 - **Boîte à phrases du professeur (v2)** → `boite-a-phrases-prof` · 24 Ko
 - **Cours de sortilèges 1re année : Alarion** → `cours-sortileges-alarion` · 13 Ko
 - **Fiche professeur** → `fiche-professeur-nov-2026` · Validé · 1 Ko
-- **Liste des professeurs (onglet 1, CSV)** → `sheet-prof-tableau` · Possibilité de modifier  · 3 Ko
+- **Liste des professeurs (onglet 1, CSV)** → `sheet-prof-tableau` · Possibilité de modifier  · 8 Ko
 
 ### Métiers légaux (2)
 - **Dossiers Métiers Légaux (création d'entreprises légales)** → `dossiers-metiers-legaux` · Validé · 11 Ko
@@ -111,7 +111,7 @@ Construire un site web (statique, un seul dossier, sans backend) qui affiche **t
 - **Braconnier** → `metier-braconnier` · Possibilité de modifier  · 5 Ko
 - **Contrebandier** → `metier-contrebandier` · Validé · 5 Ko
 - **Fabricant de reliques illégales** → `metier-fabricant-reliques` · Validé · 5 Ko
-- **Items jobs illégaux V1 (onglet 1)** → `sheet-items-jobs-illegaux` · Validé · 1 Ko
+- **Items jobs illégaux V1 (onglet 1)** → `sheet-items-jobs-illegaux` · Validé · 30 Ko
 - **Livre des potions illégal** → `livre-potions-illegal` · Validé · 8 Ko
 - **Pilleur** → `metier-pilleur` · Validé · 4 Ko
 - **Reliques maudites** → `reliques-maudites` · À modifier · 6 Ko
@@ -154,8 +154,8 @@ Construire un site web (statique, un seul dossier, sans backend) qui affiche **t
 - **Organisation Pôle Lore (feuille)** → `sheet-organisation-pole-lore` · En cours de rédaction · 16 Ko
 - **Organisation Pôle RP (feuille)** → `sheet-organisation-pole-rp` · 12 Ko
 - **Organisation Pôle RP - Civil/Légal (feuille)** → `sheet-pole-rp-civil-legal` · Possibilité de modifier  · 10 Ko
-- **Organisation Pôle RP – Familles (onglet 1)** → `sheet-organisation-familles` · Possibilité de modifier  · <1 Ko
-- **Organisation Pôle RP – Illégal (onglet 1)** → `sheet-organisation-illegal` · Possibilité de modifier  · <1 Ko
+- **Organisation Pôle RP – Familles (onglet 1)** → `sheet-organisation-familles` · Possibilité de modifier  · 8 Ko
+- **Organisation Pôle RP – Illégal (onglet 1)** → `sheet-organisation-illegal` · Possibilité de modifier  · 8 Ko
 - **Recrutement MJ** → `recrutement-mj` · Validé · 2 Ko
 - **Régles** → `regles` · 11 Ko
 
@@ -174,6 +174,107 @@ Construire un site web (statique, un seul dossier, sans backend) qui affiche **t
 ### Jeu (commandes) (2)
 - **Commandes & Raccourcis Importants** → `commandes-raccourcis-B` · 1 Ko
 - **Commandes & Raccourcis Importants (Greatowl)** → `commandes-raccourcis-A` · <1 Ko
+
+### Wiki officiel WikiWood (public) (99)
+- **AMRU** → `wiki-amru` · 1 Ko
+- **Accueil** → `wiki-accueil` · 2 Ko
+- **Aetherion** → `wiki-bestiaire--rang-s--aetherion` · 3 Ko
+- **Akkorokamui** → `wiki-bestiaire--rang-s--akkorokamui` · 3 Ko
+- **Algue Commune** → `wiki-herbier--plantes-innofensives--algue-commune` · 2 Ko
+- **Angélique d'Elderwood** → `wiki-herbier--plantes-surveillees--angelique-delderwood` · 5 Ko
+- **Araignée d'Ether** → `wiki-bestiaire--rang-aa--araignee-dether` · 4 Ko
+- **Armoise Lunaire** → `wiki-herbier--plantes-innofensives--armoise-lunaire` · 2 Ko
+- **Baie de Lyandrelle** → `wiki-herbier--plantes-surveillees--baie-de-lyandrelle` · 3 Ko
+- **Bondiluce** → `wiki-bestiaire--rang-a--bondiluce` · 1 Ko
+- **Bonne-Haleine des Landes** → `wiki-herbier--plantes-innofensives--bonne-haleine-des-landes` · 4 Ko
+- **Braisière des coteaux** → `wiki-herbier--plantes-innofensives--braisiere-des-coteaux` · 3 Ko
+- **Brisecerat** → `wiki-bestiaire--rang-a--brisecerat` · 1 Ko
+- **Cactus-Tonneau des serres** → `wiki-herbier--plantes-innofensives--cactus-tonneau-des-serres` · 5 Ko
+- **Champignon Brun** → `wiki-herbier--plantes-innofensives--champignon-brun` · 2 Ko
+- **Champignon Phosphorescent** → `wiki-herbier--plantes-innofensives--champignon-phosphorescent` · 2 Ko
+- **Cheminante des grèves** → `wiki-herbier--plantes-surveillees--cheminante-des-greves` · 4 Ko
+- **Chronologie** → `wiki-chronologie` · 2 Ko
+- **Dame de l'heure** → `wiki-herbier--plantes-innofensives--dame-de-lheure` · 4 Ko
+- **Dictame de Crète** → `wiki-herbier--plantes-innofensives--dictame-de-crete` · 2 Ko
+- **Discpline et sanctions** → `wiki-reglement-hrp--discpline-et-sanctions` · 3 Ko
+- **Délieuse des rocailles** → `wiki-herbier--plantes-innofensives--delieuse-des-rocailles` · 3 Ko
+- **Echomys** → `wiki-bestiaire--rang-a--echomys` · 4 Ko
+- **Entités** → `wiki-bestiaire--entites` · <1 Ko
+- **Ephyr** → `wiki-bestiaire--rang-s--ephyr` · 3 Ko
+- **Famille Belladorn** → `wiki-familles-notables--famille-belladorn` · 5 Ko
+- **Famille Caerwyn** → `wiki-familles-originelles--famille-caerwyn` · 6 Ko
+- **Famille Dravenholt** → `wiki-familles-originelles--famille-dravenholt` · 5 Ko
+- **Famille Hearthbane** → `wiki-familles-originelles--famille-hearthbane` · 6 Ko
+- **Famille Ravenscroft** → `wiki-familles-notables--famille-ravenscroft` · 5 Ko
+- **Famille Valemont** → `wiki-familles-originelles--famille-valemont` · 5 Ko
+- **Familles Notables** → `wiki-familles-notables` · <1 Ko
+- **Familles Originelles** → `wiki-familles-originelles` · 2 Ko
+- **Folumix** → `wiki-bestiaire--rang-aa--folumix` · 1 Ko
+- **Fougère mâle** → `wiki-herbier--plantes-surveillees--fougere-male` · 4 Ko
+- **Glossaire** → `wiki-glossaire` · 1 Ko
+- **Golem Runique** → `wiki-bestiaire--rang-aaa--golem-runique` · 2 Ko
+- **Golem Sylvestre** → `wiki-bestiaire--rang-aaa--golem-sylvestre` · 3 Ko
+- **Gourde d'Office** → `wiki-herbier--plantes-innofensives--gourde-doffice` · 3 Ko
+- **Gratte Mur / Arcanophage** → `wiki-bestiaire--rang-aa--gratte-mur-arcanophage` · 1 Ko
+- **Griffon** → `wiki-bestiaire--rang-a-2--griffon` · 4 Ko
+- **Guide de candidature** → `wiki-guide-de-candidature` · 5 Ko
+- **Herbier** → `wiki-herbier` · <1 Ko
+- **Histoire d'Elderwood** → `wiki-histoire-delderwood` · <1 Ko
+- **Jackalope** → `wiki-bestiaire--rang-a--jackalope` · 1 Ko
+- **L'Écho** → `wiki-principes-fondamentaux--lecho` · <1 Ko
+- **L'Échoïde** → `wiki-bestiaire--entites--les-echoides` · 4 Ko
+- **L'île, hors du château** → `wiki-les-lieux--lile-hors-du-chateau` · 2 Ko
+- **La Résonance** → `wiki-principes-fondamentaux--la-resonance` · 1 Ko
+- **La Source** → `wiki-les-lieux--la-source` · <1 Ko
+- **Le Bestiaire** → `wiki-bestiaire` · <1 Ko
+- **Le Flux** → `wiki-principes-fondamentaux--le-flux` · <1 Ko
+- **Le Voile** → `wiki-principes-fondamentaux--le-voile` · 1 Ko
+- **Le château** → `wiki-les-lieux--le-chateau` · 1 Ko
+- **Les couleurs du Flux** → `wiki-principes-fondamentaux--les-couleurs-du-flux` · 3 Ko
+- **Les formes de magie** → `wiki-principes-fondamentaux--les-formes-de-magie` · 1 Ko
+- **Les lieux** → `wiki-les-lieux` · <1 Ko
+- **Les maisons** → `wiki-les-maisons` · 1 Ko
+- **Les statuts magiques** → `wiki-principes-fondamentaux--les-statuts-magiques` · 2 Ko
+- **Lexique RP** → `wiki-reglement--lexique-rp` · 6 Ko
+- **Maison Aerwyn** → `wiki-les-maisons--maison-aerwyn` · 2 Ko
+- **Maison Brumval** → `wiki-les-maisons--maison-brumval` · 1 Ko
+- **Maison Falcon** → `wiki-les-maisons--maison-falcon` · 1 Ko
+- **Maison Venatrix** → `wiki-les-maisons--maison-venatrix` · 2 Ko
+- **Mange-Lumière / Luciphage** → `wiki-bestiaire--rang-aa--mange-lumiere-luciphage` · 1 Ko
+- **Matriarche (Araignée d'Ether)** → `wiki-bestiaire--rang-aaaa--matriarche` · 4 Ko
+- **Menthe Poivrée** → `wiki-herbier--plantes-innofensives--menthe-poivree` · 2 Ko
+- **Misa** → `wiki-bestiaire--rang-a--misa` · 1 Ko
+- **Multaille** → `wiki-bestiaire--rang-aa--multaille` · 1 Ko
+- **Mycollin** → `wiki-bestiaire--rang-a--mycollin` · 3 Ko
+- **Obligeante des haies** → `wiki-herbier--plantes-innofensives--obligeante-des-haies` · 4 Ko
+- **Ornicabal** → `wiki-bestiaire--rang-aaa--ornicabal` · 1 Ko
+- **Papillodactyle** → `wiki-bestiaire--rang-a--papillodactyle` · 2 Ko
+- **Pastenague** → `wiki-bestiaire--rang-a--pastenague` · 1 Ko
+- **Patiente des murs** → `wiki-herbier--plantes-innofensives--patiente-des-murs` · 4 Ko
+- **Personnages illustres** → `wiki-personnages` · 4 Ko
+- **Peseuse commune** → `wiki-herbier--plantes-innofensives--peseuse-commune` · 3 Ko
+- **Plantes innoffensives** → `wiki-herbier--plantes-innofensives` · 2 Ko
+- **Plantes surveillées** → `wiki-herbier--plantes-surveillees` · <1 Ko
+- **Pleurote des ombres** → `wiki-herbier--plantes-innofensives--pleurote-des-ombres` · 1 Ko
+- **Points de maison** → `wiki-reglement-hrp--points-de-maison` · 4 Ko
+- **Praedacornis** → `wiki-bestiaire--rang-aa--praedacornis` · 1 Ko
+- **Prenante des rives** → `wiki-herbier--plantes-innofensives--prenante-des-rives` · 3 Ko
+- **Principes fondamentaux** → `wiki-principes-fondamentaux` · 1 Ko
+- **Radicule** → `wiki-bestiaire--rang-a--radicule` · 1 Ko
+- **Rang A** → `wiki-bestiaire--rang-a-2` · <1 Ko
+- **Rang B** → `wiki-bestiaire--rang-aaaa` · 1 Ko
+- **Rang C** → `wiki-bestiaire--rang-aaa` · 1 Ko
+- **Rang D** → `wiki-bestiaire--rang-aa` · 1 Ko
+- **Rang E** → `wiki-bestiaire--rang-a` · 2 Ko
+- **Rang S** → `wiki-bestiaire--rang-s` · <1 Ko
+- **Règlement** → `wiki-reglement` · <1 Ko
+- **Règlement RP** → `wiki-reglement--reglement-rp` · 3 Ko
+- **Règlement général** → `wiki-reglement--reglement-general` · 4 Ko
+- **Règlement intérieur** → `wiki-reglement-hrp` · 7 Ko
+- **Scalvignus** → `wiki-bestiaire--rang-aa--scalvignus` · 1 Ko
+- **Shpouts** → `wiki-bestiaire--rang-a--shpouts` · 2 Ko
+- **Valdorn** → `wiki-bestiaire--rang-s--valdorn` · 3 Ko
+- **Zones RPK** → `wiki-reglement--zones-rpk` · <1 Ko
 
 ## 2. Fiche de chaque document
 
@@ -866,6 +967,305 @@ Pour chaque document : section, statut, mots-clés, résumé officiel, responsab
 - (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
 
 **Commandes & Raccourcis Importants (Greatowl)** (`commandes-raccourcis-A`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+### Wiki officiel WikiWood (public)
+
+**AMRU** (`wiki-amru`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Accueil** (`wiki-accueil`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Aetherion** (`wiki-bestiaire--rang-s--aetherion`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Akkorokamui** (`wiki-bestiaire--rang-s--akkorokamui`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Algue Commune** (`wiki-herbier--plantes-innofensives--algue-commune`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Angélique d'Elderwood** (`wiki-herbier--plantes-surveillees--angelique-delderwood`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Araignée d'Ether** (`wiki-bestiaire--rang-aa--araignee-dether`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Armoise Lunaire** (`wiki-herbier--plantes-innofensives--armoise-lunaire`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Baie de Lyandrelle** (`wiki-herbier--plantes-surveillees--baie-de-lyandrelle`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Bondiluce** (`wiki-bestiaire--rang-a--bondiluce`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Bonne-Haleine des Landes** (`wiki-herbier--plantes-innofensives--bonne-haleine-des-landes`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Braisière des coteaux** (`wiki-herbier--plantes-innofensives--braisiere-des-coteaux`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Brisecerat** (`wiki-bestiaire--rang-a--brisecerat`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Cactus-Tonneau des serres** (`wiki-herbier--plantes-innofensives--cactus-tonneau-des-serres`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Champignon Brun** (`wiki-herbier--plantes-innofensives--champignon-brun`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Champignon Phosphorescent** (`wiki-herbier--plantes-innofensives--champignon-phosphorescent`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Cheminante des grèves** (`wiki-herbier--plantes-surveillees--cheminante-des-greves`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Chronologie** (`wiki-chronologie`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Dame de l'heure** (`wiki-herbier--plantes-innofensives--dame-de-lheure`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Dictame de Crète** (`wiki-herbier--plantes-innofensives--dictame-de-crete`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Discpline et sanctions** (`wiki-reglement-hrp--discpline-et-sanctions`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Délieuse des rocailles** (`wiki-herbier--plantes-innofensives--delieuse-des-rocailles`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Echomys** (`wiki-bestiaire--rang-a--echomys`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Entités** (`wiki-bestiaire--entites`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Ephyr** (`wiki-bestiaire--rang-s--ephyr`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Famille Belladorn** (`wiki-familles-notables--famille-belladorn`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Famille Caerwyn** (`wiki-familles-originelles--famille-caerwyn`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Famille Dravenholt** (`wiki-familles-originelles--famille-dravenholt`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Famille Hearthbane** (`wiki-familles-originelles--famille-hearthbane`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Famille Ravenscroft** (`wiki-familles-notables--famille-ravenscroft`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Famille Valemont** (`wiki-familles-originelles--famille-valemont`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Familles Notables** (`wiki-familles-notables`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Familles Originelles** (`wiki-familles-originelles`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Folumix** (`wiki-bestiaire--rang-aa--folumix`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Fougère mâle** (`wiki-herbier--plantes-surveillees--fougere-male`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Glossaire** (`wiki-glossaire`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Golem Runique** (`wiki-bestiaire--rang-aaa--golem-runique`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Golem Sylvestre** (`wiki-bestiaire--rang-aaa--golem-sylvestre`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Gourde d'Office** (`wiki-herbier--plantes-innofensives--gourde-doffice`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Gratte Mur / Arcanophage** (`wiki-bestiaire--rang-aa--gratte-mur-arcanophage`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Griffon** (`wiki-bestiaire--rang-a-2--griffon`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Guide de candidature** (`wiki-guide-de-candidature`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Herbier** (`wiki-herbier`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Histoire d'Elderwood** (`wiki-histoire-delderwood`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Jackalope** (`wiki-bestiaire--rang-a--jackalope`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**L'Écho** (`wiki-principes-fondamentaux--lecho`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**L'Échoïde** (`wiki-bestiaire--entites--les-echoides`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**L'île, hors du château** (`wiki-les-lieux--lile-hors-du-chateau`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**La Résonance** (`wiki-principes-fondamentaux--la-resonance`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**La Source** (`wiki-les-lieux--la-source`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Le Bestiaire** (`wiki-bestiaire`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Le Flux** (`wiki-principes-fondamentaux--le-flux`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Le Voile** (`wiki-principes-fondamentaux--le-voile`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Le château** (`wiki-les-lieux--le-chateau`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Les couleurs du Flux** (`wiki-principes-fondamentaux--les-couleurs-du-flux`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Les formes de magie** (`wiki-principes-fondamentaux--les-formes-de-magie`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Les lieux** (`wiki-les-lieux`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Les maisons** (`wiki-les-maisons`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Les statuts magiques** (`wiki-principes-fondamentaux--les-statuts-magiques`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Lexique RP** (`wiki-reglement--lexique-rp`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Maison Aerwyn** (`wiki-les-maisons--maison-aerwyn`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Maison Brumval** (`wiki-les-maisons--maison-brumval`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Maison Falcon** (`wiki-les-maisons--maison-falcon`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Maison Venatrix** (`wiki-les-maisons--maison-venatrix`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Mange-Lumière / Luciphage** (`wiki-bestiaire--rang-aa--mange-lumiere-luciphage`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Matriarche (Araignée d'Ether)** (`wiki-bestiaire--rang-aaaa--matriarche`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Menthe Poivrée** (`wiki-herbier--plantes-innofensives--menthe-poivree`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Misa** (`wiki-bestiaire--rang-a--misa`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Multaille** (`wiki-bestiaire--rang-aa--multaille`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Mycollin** (`wiki-bestiaire--rang-a--mycollin`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Obligeante des haies** (`wiki-herbier--plantes-innofensives--obligeante-des-haies`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Ornicabal** (`wiki-bestiaire--rang-aaa--ornicabal`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Papillodactyle** (`wiki-bestiaire--rang-a--papillodactyle`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Pastenague** (`wiki-bestiaire--rang-a--pastenague`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Patiente des murs** (`wiki-herbier--plantes-innofensives--patiente-des-murs`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Personnages illustres** (`wiki-personnages`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Peseuse commune** (`wiki-herbier--plantes-innofensives--peseuse-commune`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Plantes innoffensives** (`wiki-herbier--plantes-innofensives`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Plantes surveillées** (`wiki-herbier--plantes-surveillees`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Pleurote des ombres** (`wiki-herbier--plantes-innofensives--pleurote-des-ombres`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Points de maison** (`wiki-reglement-hrp--points-de-maison`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Praedacornis** (`wiki-bestiaire--rang-aa--praedacornis`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Prenante des rives** (`wiki-herbier--plantes-innofensives--prenante-des-rives`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Principes fondamentaux** (`wiki-principes-fondamentaux`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Radicule** (`wiki-bestiaire--rang-a--radicule`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Rang A** (`wiki-bestiaire--rang-a-2`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Rang B** (`wiki-bestiaire--rang-aaaa`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Rang C** (`wiki-bestiaire--rang-aaa`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Rang D** (`wiki-bestiaire--rang-aa`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Rang E** (`wiki-bestiaire--rang-a`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Rang S** (`wiki-bestiaire--rang-s`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Règlement** (`wiki-reglement`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Règlement RP** (`wiki-reglement--reglement-rp`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Règlement général** (`wiki-reglement--reglement-general`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Règlement intérieur** (`wiki-reglement-hrp`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Scalvignus** (`wiki-bestiaire--rang-aa--scalvignus`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Shpouts** (`wiki-bestiaire--rang-a--shpouts`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Valdorn** (`wiki-bestiaire--rang-s--valdorn`)
+- (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
+
+**Zones RPK** (`wiki-reglement--zones-rpk`)
 - (hors Bibliothèque du pôle RP : pas de métadonnées officielles)
 
 ## 3. Niveaux d'accès (à respecter dans le site)
