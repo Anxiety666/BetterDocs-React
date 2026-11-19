@@ -1,14 +1,17 @@
-# Blueprint Render : site statique Elderwood (dossier elderwood-site/, aucun build nécessaire).
+# Blueprint Render : site Elderwood protégé par mot de passe (Web Service Python, voir elderwood-site/server.py).
+# Les mots de passe ne sont PAS dans ce fichier : à saisir dans Render (onglet Environment).
 services:
   - type: web
-    runtime: static
+    runtime: python
     name: elderwood-lore
+    plan: free
     repo: https://github.com/Anxiety666/BetterDocs-React
     branch: claude/elderwood-lore-site-dvd890
     rootDir: elderwood-site
-    buildCommand: echo "site statique, rien à compiler"
-    staticPublishPath: .
-    headers:
-      - path: /*
-        name: X-Robots-Tag
-        value: noindex, nofollow
+    buildCommand: echo "rien a compiler"
+    startCommand: python3 server.py
+    envVars:
+      - key: SITE_STAFF_PASSWORD
+        sync: false
+      - key: SITE_PLAYER_PASSWORD
+        sync: false

@@ -31,6 +31,23 @@ elderwood-site/
 
 `data/` est déjà généré et versionné : le dossier est **prêt à héberger** tel quel sur n'importe quel hébergement statique (GitHub Pages, Netlify, Apache, Nginx…). Les données sont chargées par balises `<script>` : l'ouverture directe de `index.html` fonctionne aussi.
 
+## Protéger l'accès par mot de passe (Render)
+
+Un site statique ne peut pas être protégé par un mot de passe écrit en JavaScript (il suffirait de lire les fichiers). `server.py` est un petit serveur (Python standard) qui **exige un identifiant avant d'envoyer le moindre fichier** (HTTP Basic) et ne sert que `index.html`, `assets/` et `data/` — jamais `content/`, `config/` ni les scripts.
+
+| Variable | Rôle |
+|---|---|
+| `SITE_STAFF_PASSWORD` (obligatoire) | accès à tout le site (212 pages) ; identifiant `staff` (modifiable avec `SITE_STAFF_USER`) |
+| `SITE_PLAYER_PASSWORD` (facultatif) | accès à `dist/joueurs/` : site **sans** les pages staff ; identifiant `joueurs` (`SITE_PLAYER_USER`) |
+
+Sans `SITE_STAFF_PASSWORD`, le serveur refuse de démarrer. Après toute modification du contenu : `python3 build.py --all --check` puis commiter `data/` **et** `dist/joueurs/` (les deux doivent rester synchronisés).
+
+Sur Render : *New → Blueprint* sur ce dépôt (le fichier `render.yaml` crée un **Web Service** Python), puis renseigner les deux mots de passe dans l'onglet *Environment*. Le service gratuit se met en veille après inactivité (premier chargement lent). Essai local :
+
+```bash
+SITE_STAFF_PASSWORD=monmotdepasse python3 server.py   # puis http://127.0.0.1:8000/ (identifiant : staff)
+```
+
 ## Essayer en local
 
 ```bash

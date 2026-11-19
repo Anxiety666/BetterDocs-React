@@ -1114,9 +1114,17 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--audience", choices=LEVELS, default="staff", help="niveau maximal inclus (public < joueurs < staff)")
     ap.add_argument("--out", help="dossier de sortie (défaut : . pour staff, dist/<audience> sinon)")
+    ap.add_argument("--all", action="store_true", help="génère le site complet (data/) ET dist/joueurs/ (hébergement protégé)")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--verbose", action="store_true")
     args = ap.parse_args()
+    if args.all:
+        import subprocess
+        for extra in ([], ["--audience", "joueurs"]):
+            r = subprocess.run([sys.executable, str(Path(__file__).resolve())] + extra + (["--check"] if args.check else []))
+            if r.returncode:
+                sys.exit(r.returncode)
+        return
     cfg, manifest, search_docs, page_files, report, errors = build(args)
 
     search_all = {x["k"]: x["x"] for x in search_docs}
