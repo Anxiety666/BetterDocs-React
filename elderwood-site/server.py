@@ -8,6 +8,7 @@ Variables d'environnement :
   SITE_STAFF_USER        identifiant staff (défaut : staff)
   SITE_PLAYER_PASSWORD   mot de passe « joueurs » : site SANS les pages staff (dist/joueurs)    [facultatif]
   SITE_PLAYER_USER       identifiant joueurs (défaut : joueurs)
+  SITE_VAULT_KEY         clé du coffre chiffré (vault/*.bin) : requise dès que vault/staff.bin existe (24 caractères min.)
   PORT                   port d'écoute (fourni par Render ; défaut 8000)
   REQUIRE_HTTPS          1/0 : refuse l'HTTP en clair (défaut : 1 sur Render, 0 en local)
   TRUST_PROXY            1/0 : lit l'IP client dans X-Forwarded-For (défaut : 1 sur Render, 0 en local)
@@ -17,8 +18,10 @@ Génération d'un mot de passe robuste :  python3 server.py --generate
 Protections : mots de passe forts exigés au démarrage, comparaison à temps constant, blocage temporaire des
 adresses après des essais ratés, HTTPS imposé, en-têtes de sécurité (CSP stricte, HSTS, anti-framing…),
 GET/HEAD uniquement, délais de socket, liste blanche de fichiers (content/, config/, scripts jamais servis).
+Le site est servi depuis le coffre chiffré (vault/*.bin) déchiffré EN MÉMOIRE : aucun fichier sensible en clair sur le disque.
 """
 import base64, hashlib, hmac, mimetypes, os, re, secrets, string, sys, threading, time
+import vaultlib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -66,11 +69,30 @@ def generate_password(n=24):
             return pw
 
 
-LEVELS = []          # (identifiant, empreinte du mot de passe, dossier servi)
+VAULT_DIR = ROOT / "vault"
+USE_VAULT = (VAULT_DIR / "staff.bin").exists()
+SITES = {}           # niveau -> {chemin: octets} (coffre déchiffré en mémoire)
+LEVELS = []          # (identifiant, mot de passe, niveau)
 if STAFF_PW:
-    LEVELS.append((STAFF_USER, STAFF_PW, ROOT))
+    LEVELS.append((STAFF_USER, STAFF_PW, "staff"))
 if PLAYER_PW:
-    LEVELS.append((PLAYER_USER, PLAYER_PW, ROOT / "dist" / "joueurs"))
+    LEVELS.append((PLAYER_USER, PLAYER_PW, "joueurs"))
+
+
+def load_vault():
+    key = os.environ.get("SITE_VAULT_KEY", "")
+    if len(key) < 24:
+        sys.exit("SITE_VAULT_KEY (24 caractères minimum) est requise pour ouvrir le coffre chiffré vault/.")
+    for level, fname in (("staff", "staff.bin"), ("joueurs", "joueurs.bin")):
+        f = VAULT_DIR / fname
+        if level == "joueurs" and not PLAYER_PW:
+            continue
+        try:
+            SITES[level] = vaultlib.unpack(vaultlib.unseal(f.read_bytes(), key))
+        except (OSError, vaultlib.VaultError) as e:
+            sys.exit("Coffre %s illisible (%s) : mauvaise SITE_VAULT_KEY, ou coffre non rescellé après modification." % (fname, e))
+        if "index.html" not in SITES[level]:
+            sys.exit("Coffre %s incomplet." % fname)
 
 
 def _h(s):
@@ -78,7 +100,7 @@ def _h(s):
 
 
 def authenticate(header):
-    """Retourne le dossier à servir, ou None. Comparaison de hachages à temps constant (aucune fuite de longueur)."""
+    """Retourne le niveau à servir (« staff » / « joueurs »), ou None. Comparaison de hachages à temps constant (aucune fuite de longueur)."""
     if not header or not header.startswith("Basic ") or len(header) > 1024:
         return None
     try:
@@ -86,10 +108,10 @@ def authenticate(header):
     except Exception:
         return None
     found = None
-    for u, p, root in LEVELS:
+    for u, p, level in LEVELS:
         ok = hmac.compare_digest(_h(user), _h(u)) & hmac.compare_digest(_h(pw), _h(p))
         if ok:
-            found = root
+            found = level
     return found
 
 
@@ -189,8 +211,8 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/deconnexion":                      # force le navigateur à oublier les identifiants
             return self.simple(401, "Déconnecté. Rechargez la page pour vous reconnecter.",
                                {"WWW-Authenticate": 'Basic realm="Elderwood - reconnexion", charset="UTF-8"'})
-        root = authenticate(self.headers.get("Authorization"))
-        if root is None:
+        level = authenticate(self.headers.get("Authorization"))
+        if level is None:
             if not self.headers.get("Authorization"):
                 time.sleep(0.05)
                 return self.simple(401, "Accès restreint : identifiant et mot de passe requis.",
@@ -201,17 +223,27 @@ class Handler(BaseHTTPRequestHandler):
         parts = [p for p in rel.split("/") if p]
         if not parts or ".." in parts or "\x00" in rel or parts[0] not in ALLOWED_TOP:
             return self.simple(404, "Introuvable.")
-        target = (root / "/".join(parts)).resolve()
-        try:
-            target.relative_to(root.resolve())
-        except ValueError:
-            return self.simple(404, "Introuvable.")
-        if target.is_dir():
-            target = target / "index.html"
-        if not target.is_file():
-            return self.simple(404, "Introuvable.")
-        data = target.read_bytes()
-        ctype = mimetypes.guess_type(str(target))[0] or "application/octet-stream"
+        name = "/".join(parts)
+        if USE_VAULT:
+            data = SITES[level].get(name)
+            if data is None and name in ALLOWED_TOP and (name + "/index.html") in SITES[level]:
+                name += "/index.html"; data = SITES[level][name]
+            if data is None:
+                return self.simple(404, "Introuvable.")
+        else:                                           # développement local sans coffre : fichiers en clair
+            root = ROOT if level == "staff" else ROOT / "dist" / "joueurs"
+            target = (root / name).resolve()
+            try:
+                target.relative_to(root.resolve())
+            except ValueError:
+                return self.simple(404, "Introuvable.")
+            if target.is_dir():
+                target = target / "index.html"
+            if not target.is_file():
+                return self.simple(404, "Introuvable.")
+            data = target.read_bytes()
+            name = target.name
+        ctype = mimetypes.guess_type(name)[0] or "application/octet-stream"
         self.send_response(200)
         self.send_header("Content-Type", ctype + ("; charset=utf-8" if ctype.startswith(("text/", "application/javascript")) else ""))
         self.send_header("Content-Length", str(len(data)))
@@ -240,8 +272,10 @@ def check_config():
             sys.exit("Mot de passe de « %s » trop faible : %s.\nGénérez-en un avec : python3 server.py --generate" % (user, " ; ".join(bad)))
     if len(LEVELS) == 2 and (LEVELS[0][1] == LEVELS[1][1] or LEVELS[0][0] == LEVELS[1][0]):
         sys.exit("Les deux niveaux doivent avoir des identifiants ET des mots de passe différents.")
-    if PLAYER_PW and not (ROOT / "dist" / "joueurs" / "index.html").exists():
-        sys.exit("SITE_PLAYER_PASSWORD est défini mais dist/joueurs/ est absent : lancer `python3 build.py --all` et le commiter.")
+    if USE_VAULT:
+        load_vault()
+    elif PLAYER_PW and not (ROOT / "dist" / "joueurs" / "index.html").exists():
+        sys.exit("SITE_PLAYER_PASSWORD est défini mais dist/joueurs/ est absent : lancer `python3 build.py --all`.")
 
 
 def main():
@@ -250,7 +284,7 @@ def main():
         return
     check_config()
     port = int(os.environ.get("PORT", "8000"))
-    print("Elderwood protégé : %d niveau(x) d'accès, HTTPS imposé : %s, port %d" % (len(LEVELS), REQUIRE_HTTPS, port), flush=True)
+    print("Elderwood protégé : %d niveau(x) d'accès, coffre chiffré : %s, HTTPS imposé : %s, port %d" % (len(LEVELS), USE_VAULT, REQUIRE_HTTPS, port), flush=True)
     srv = ThreadingHTTPServer(("0.0.0.0", port), Handler)
     srv.daemon_threads = True
     srv.serve_forever()

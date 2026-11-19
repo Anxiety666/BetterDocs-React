@@ -1,1 +1,7 @@
 __pycache__/
+# Contenu en clair : jamais versionné (le dépôt ne contient que le coffre chiffré vault/*.bin)
+content/
+data/
+dist/
+pages.json
+config/

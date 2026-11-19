@@ -1,1 +1,0 @@
-window.EW=window.EW||{pages:{}};window.EW.pages["fiche-cordelia-ravenscroft"]={"html":"<div class=\"callout withheld\"><p><strong>Contenu non publié.<\/strong> Fiche de candidature individuelle (données personnelles d’un joueur) : non publiée sur le site.<\/p><\/div>","toc":[]};

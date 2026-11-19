@@ -31,6 +31,33 @@ elderwood-site/
 
 `data/` est déjà généré et versionné : le dossier est **prêt à héberger** tel quel sur n'importe quel hébergement statique (GitHub Pages, Netlify, Apache, Nginx…). Les données sont chargées par balises `<script>` : l'ouverture directe de `index.html` fonctionne aussi.
 
+## Coffre chiffré (le dépôt ne contient plus de contenu en clair)
+
+⚠️ Le dépôt GitHub peut être public : tout fichier commité y est lisible par tous, quel que soit le mot de passe du site. C'est pourquoi `content/`, `data/`, `dist/`, `pages.json` et `config/` **ne sont plus versionnés** (voir `.gitignore`). Le dépôt ne contient que le code (public) et `vault/*.bin`, des archives **chiffrées** :
+
+| Fichier | Contenu |
+|---|---|
+| `vault/staff.bin` | site complet (212 pages), servi au niveau « staff » |
+| `vault/joueurs.bin` | site sans pages staff, servi au niveau « joueurs » |
+| `vault/sources.bin` | sources éditables (`content/`, `pages.json`, `config/`) |
+
+Chiffrement : `vaultlib.py`, bibliothèque standard uniquement — clé dérivée par **scrypt** (sel aléatoire), flux HMAC-SHA256 en mode compteur, **authentification HMAC-SHA256 vérifiée avant déchiffrement** (une clé fausse ou un fichier altéré sont refusés). Les « codes anciens » (César, Vigenère, substitutions…) se cassent en quelques secondes et n'auraient protégé rien : seule une clé forte protège. Le serveur déchiffre **en mémoire** au démarrage : aucun contenu sensible en clair sur le disque de Render.
+
+```bash
+python3 vault.py generate              # produit une clé de 40 caractères
+export SITE_VAULT_KEY='…'              # la même valeur que sur Render (variable SITE_VAULT_KEY)
+python3 vault.py open                  # restaure content/, pages.json, config/ (poste du mainteneur)
+# … modifier les sources, puis :
+python3 vault.py seal                  # build complet + rechiffrement -> vault/*.bin, à commiter
+python3 vault.py rekey 'NOUVELLE_CLE'  # change la clé (ancienne dans SITE_VAULT_KEY), puis mettre à jour Render
+python3 vault.py verify                # contrôle que les trois coffres s'ouvrent
+```
+
+La clé n'existe que dans Render (variable `SITE_VAULT_KEY`) et dans votre gestionnaire de mots de passe. **Sans elle, le contenu est irrécupérable** : conservez-la. L'historique git antérieur à l'introduction du coffre contient encore les fichiers en clair : voir « Historique » ci-dessous.
+
+### Historique
+Les commits précédents ont publié le contenu en clair. Supprimer les fichiers du dernier commit ne les retire pas de l'historique. Solution fiable : créer un **nouveau dépôt privé** (un fork d'un dépôt public ne peut pas être rendu privé), y pousser uniquement l'état actuel, puis supprimer l'ancien dépôt ou ses branches. Considérez que ce contenu a pu être lu ou copié, et changez ce qui peut l'être (mots de passe, pseudos exposés).
+
 ## Protéger l'accès par mot de passe (Render)
 
 Un site statique ne peut pas être protégé par un mot de passe écrit en JavaScript (il suffirait de lire les fichiers). `server.py` est un petit serveur (Python standard) qui **exige un identifiant avant d'envoyer le moindre fichier** (HTTP Basic) et ne sert que `index.html`, `assets/` et `data/` — jamais `content/`, `config/` ni les scripts.
@@ -52,9 +79,9 @@ Protections en place :
 
 Limites à connaître : l'authentification est un mot de passe partagé par niveau (pas de comptes individuels) ; toute personne qui le connaît voit tout son niveau. Pour révoquer un accès, changez la variable dans Render (le service redémarre). Les images du wiki sont chargées depuis wiki.elderwood-rp.com (autorisé dans la CSP).
 
-Après toute modification du contenu : `python3 build.py --all --check` puis commiter `data/` **et** `dist/joueurs/` (les deux doivent rester synchronisés).
+Après toute modification du contenu : `python3 vault.py seal` puis commiter `vault/*.bin`.
 
-Sur Render : *New → Web Service* (Language **Python 3**, Root Directory `elderwood-site`, Build Command `echo ok`, Start Command `python3 server.py`), puis les variables dans l'onglet *Environment*. Le service gratuit se met en veille après inactivité (premier chargement lent). Essai local :
+Sur Render : *New → Web Service* (Language **Python 3**, Root Directory `elderwood-site`, Build Command `echo ok`, Start Command `python3 server.py`), puis les variables `SITE_STAFF_PASSWORD`, `SITE_PLAYER_PASSWORD` et `SITE_VAULT_KEY` dans l'onglet *Environment*. Le service gratuit se met en veille après inactivité (premier chargement lent). Essai local :
 
 ```bash
 SITE_STAFF_PASSWORD="$(python3 server.py --generate)" python3 server.py   # affichez-le avant : python3 server.py --generate

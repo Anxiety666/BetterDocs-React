@@ -15,3 +15,5 @@ services:
         sync: false
       - key: SITE_PLAYER_PASSWORD
         sync: false
+      - key: SITE_VAULT_KEY
+        sync: false

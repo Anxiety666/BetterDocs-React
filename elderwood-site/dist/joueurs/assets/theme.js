@@ -1,9 +1,0 @@
-/* thème appliqué avant le premier rendu (évite le flash) */
-  (function () {
-    var t = null;
-    try { t = localStorage.getItem('ew-theme'); } catch (e) {}
-    if (t !== 'light' && t !== 'dark') {
-      t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
-    }
-    document.documentElement.setAttribute('data-theme', t);
-  })();
