@@ -1,0 +1,14 @@
+# Blueprint Render : site statique Elderwood (dossier elderwood-site/, aucun build nécessaire).
+services:
+  - type: web
+    runtime: static
+    name: elderwood-lore
+    repo: https://github.com/Anxiety666/BetterDocs-React
+    branch: claude/elderwood-lore-site-dvd890
+    rootDir: elderwood-site
+    buildCommand: echo "site statique, rien à compiler"
+    staticPublishPath: .
+    headers:
+      - path: /*
+        name: X-Robots-Tag
+        value: noindex, nofollow
